@@ -17,3 +17,7 @@ h2 {
 p {
   font-family: "Roboto Slab", serif;
 }
+
+ul {
+  padding: 0;
+}

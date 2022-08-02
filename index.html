@@ -16,14 +16,17 @@
 </head>
 <body>
   <header>
-    <div class="nav-bar-bg">
+    <div class="nav-bar-bg navbar">
       <div class="container pad-left-right">
         <nav>
           <div class="row flex-row">
             <div class="column-full flex-row space-between align-cont-center">
               <p class="logo">movie finder</p>
               <div>
-                <ul>
+                <ul class="flex-row">
+                  <li class="nav-link"><a href="#"></a>upcoming movies</li>
+                  <li class="nav-link"><a href="#"></a>popular movies</li>
+                  <li class="nav-link"><a href="#"></a>view my favorites</li>
                   <li class="nav-link"><a href="#"></a>search</li>
                 </ul>
               </div>
@@ -34,7 +37,7 @@
     </div>
   </header>
   <main>
-    <div class="container pad-top-bottom">
+    <div class="container pad-top-bottom nav-margin-top">
       <div data-view="search-form">
         <div class="row flex-row cover-image">
           <div class="overlay flex-row">
@@ -53,6 +56,30 @@
       </div>
     </div>
   </main>
+  <footer>
+    <div class="footer-bg footer flex-row align-cont-center">
+      <div class="container pad-left-right">
+        <div class="row flex-row flex-wrap-footer">
+          <div class="column-full flex-row space-between align-cont-center">
+            <p class="logo-footer">movie finder</p>
+            <form action="" class="footer-form">
+              <label for="movie-search"></label>
+              <input class="search-input-footer" placeholder="Enter a movie title" type="search" id="movie-search-footer"
+                name="search">
+              <button class="search-btn-footer" type="submit">search</button>
+            </form>
+          </div>
+          <div class="column-full">
+            <ul class="flex-row align-cont-center justify-content-center">
+              <li class="footer-link"><a href="#"></a>upcoming movies</li>
+              <li class="footer-link"><a href="#"></a>popular movies</li>
+              <li class="footer-link"><a href="#"></a>view my favorites</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>

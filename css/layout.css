@@ -13,12 +13,14 @@
   width: 100%;
   margin-right: auto;
   margin-left: auto;
-
-  /* margin: 0 5rem; */
 }
 
 .column-full {
   width: 100%;
+}
+
+.column-half {
+  width: 50%;
 }
 
 .flex-row {
@@ -58,4 +60,8 @@
 .pad-top-bottom {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.nav-margin-top {
+  margin-top: 75px;
 }
