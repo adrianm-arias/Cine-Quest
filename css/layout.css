@@ -1,0 +1,46 @@
+.hidden {
+  display: none !important;
+}
+
+.container {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.row {
+  width: 100%;
+}
+
+.column-full {
+  width: 100%;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.align-cont-center {
+  align-items: center;
+}
+
+.pad-left-right {
+  padding: 0 2rem;
+}
