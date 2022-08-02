@@ -6,10 +6,15 @@
   max-width: 1200px;
   margin-right: auto;
   margin-left: auto;
+  padding: 0 1.5rem;
 }
 
 .row {
   width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  /* margin: 0 5rem; */
 }
 
 .column-full {
@@ -42,5 +47,15 @@
 }
 
 .pad-left-right {
-  padding: 0 2rem;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.pad-top-bottom {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }

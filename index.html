@@ -18,34 +18,34 @@
   <header>
     <div class="nav-bar-bg">
       <div class="container pad-left-right">
-        <div class="row flex-row">
-          <div class="column-full flex-row space-between align-cont-center">
-            <p class="logo">movie finder</p>
-            <div class="desktop-nav">
-              <ul>
-                <li class="nav-link"><a href="#"></a>search</li>
-              </ul>
+        <nav>
+          <div class="row flex-row">
+            <div class="column-full flex-row space-between align-cont-center">
+              <p class="logo">movie finder</p>
+              <div>
+                <ul>
+                  <li class="nav-link"><a href="#"></a>search</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
+        </nav>
       </div>
     </div>
   </header>
   <main>
-    <div class="container">
+    <div class="container pad-top-bottom">
       <div data-view="search-form">
-        <div class="row">
-          <div class="overlay">
-            <div class="column-full align-cont-center">
-              <h1>Search Any Movie Title</h1>
-              <p>Discover details about any movie from
+        <div class="row flex-row cover-image">
+          <div class="overlay flex-row">
+            <div class="column-full flex-column align-cont-center justify-content-center pad-left-right">
+              <h1 class="white-text header">Search Any Movie Title</h1>
+              <p class="white-text">Discover details about any movie from
                 our vast movie database.</p>
-            </div>
-            <div class="column-full">
-              <form action="">
+              <form action="" class="search-form">
                 <label for="movie-search"></label>
-                <input type="search" id="movie-search" name="search">
-                <button type="submit">search</button>
+                <input class="search-input" placeholder="Enter a movie title" type="search" id="movie-search" name="search">
+                <button class="search-btn" type="submit">search</button>
               </form>
             </div>
           </div>

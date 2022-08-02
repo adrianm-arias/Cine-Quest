@@ -20,6 +20,73 @@
   background-color: #26a7ba;
 }
 
-/* @media (max-width: 768px) {
+.overlay {
+  background: rgba(15, 75, 87, 0.75);
+  width: 100%;
+  height: 50vh;
+}
 
-} */
+.cover-image {
+  background-image: url("/images/empty-theatre.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.white-text {
+  color: white;
+}
+
+.header {
+  font-size: 2.2rem;
+}
+
+.search-btn {
+  text-transform: capitalize;
+  border: solid white 2px;
+  background-color: transparent;
+  color: white;
+  border-radius: 5rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  width: 10rem;
+  transition-property: all;
+  transition-duration: 0.8s;
+}
+
+.search-input {
+  border-radius: 5rem;
+  border: solid #26a7ba 1px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  width: 25rem;
+}
+
+.search-form {
+  margin: 3rem 1rem;
+}
+
+input:focus {
+  outline: none;
+  border: solid #26a7ba 3px;
+}
+
+.search-btn:hover {
+  background-color: #26a7ba;
+}
+
+.search-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+@media (max-width: 768px) {
+  .search-btn {
+    width: 6rem;
+  }
+
+  .search-input {
+    width: 15rem;
+  }
+}
