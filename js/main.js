@@ -9,6 +9,7 @@ var $searchResultNumber = document.querySelector('.search-results-number');
 var $viewSearchMovies = document.querySelector('[data-view="search-movies"]');
 var $viewSearchForm = document.querySelector('[data-view="search-form"]');
 var $modalCardView = document.querySelector('[data-view="modal-card-view"]');
+var $upcomingMoviesView = document.querySelector('[data-view="upcoming-movies-view"]');
 
 var $searchFooterForm = document.querySelector('.footer-form');
 
@@ -18,6 +19,7 @@ $searchForm.addEventListener('submit', function (event) {
   // RESETS DATA OBJECT
 
   event.preventDefault();
+  $upcomingMoviesView.className = 'hidden';
   data.resultNumber = null;
   data.searchKeyword = '';
   data.movies = [];
@@ -44,6 +46,7 @@ $searchFooterForm.addEventListener('submit', function (event) {
   // RESETS DATA OBJECT
 
   event.preventDefault();
+  $upcomingMoviesView.className = 'hidden';
   data.resultNumber = null;
   data.searchKeyword = '';
   data.movies = [];
@@ -64,12 +67,15 @@ $searchFooterForm.addEventListener('submit', function (event) {
   data.view = 'search-movies';
 });
 
-var $searchNavLink = document.getElementById('search-nav-link');
+// CHANGES VIEWS TO SEARCH FORM (NAV LINK)
 
+var $searchNavLink = document.getElementById('search-nav-link');
 $searchNavLink.addEventListener('click', function (event) {
   $viewSearchMovies.className = 'hidden';
+  $upcomingMoviesView.className = 'hidden';
   $viewSearchForm.className = '';
   data.view = 'search-form';
+
 });
 
 // API FOR SEARCH BY MOVIE TITLE FEATURE
@@ -90,7 +96,7 @@ function searchApi(keyword) {
       movieEntry.title = response[i].title;
       movieEntry.releaseDate = response[i].release_date;
       movieEntry.userRating = response[i].vote_average;
-      movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
+      movieEntry.movieId = response[i].id;
       if (response[i].poster_path === null) {
         movieEntry.posterUrl = 'images/placerholder-image.jpeg';
       } else {
@@ -253,4 +259,56 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     var $modalCardDesc = document.querySelector('.movie-info-card-desc');
     $modalCardDesc.textContent = data.modal[0].description;
   }
+  if (data.view === 'upcoming-movies-view') {
+    $upcomingMoviesView.className = '';
+    $viewSearchForm.className = 'hidden';
+    $viewSearchMovies.className = 'hidden';
+  }
+});
+
+// LISTEN FOR UPCOMING MOVIES BUTTON
+
+var $upcomingMoviesBtn = document.querySelector('.upcoming-movie-btn');
+
+$upcomingMoviesBtn.addEventListener('click', function () {
+  // RESETS DATA MODEL OBJECT
+
+  data.resultNumber = null;
+  data.searchKeyword = '';
+  data.movies = [];
+  data.nextEntryId = 1;
+
+  // CALLS API FOR UPCOMING MOVIES
+
+  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/upcoming?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+  xhr.setRequestHeader('token', 'abc123');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var response = xhr.response.results;
+    for (var i = 0; i < response.length; i++) {
+      var movieEntry = {};
+      movieEntry.title = response[i].title;
+      movieEntry.releaseDate = response[i].release_date;
+      movieEntry.userRating = response[i].vote_average;
+      movieEntry.movieId = response[i].id;
+      if (response[i].poster_path === null) {
+        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
+      } else {
+        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
+      }
+      movieEntry.entryId = data.nextEntryId;
+      movieEntry.description = response[i].overview;
+      data.nextEntryId++;
+      data.movies.push(movieEntry);
+      var renderNewMovie = renderMovies(movieEntry);
+      var ulElement = document.getElementById('upcoming-movie-render-ul');
+      ulElement.appendChild(renderNewMovie);
+    }
+    data.view = 'upcoming-movies-view';
+    $upcomingMoviesView.className = '';
+    $viewSearchForm.className = 'hidden';
+  });
+  xhr.send();
 });

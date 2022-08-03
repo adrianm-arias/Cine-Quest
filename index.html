@@ -26,6 +26,7 @@
               <p class="logo">movie finder</p>
               <div>
                 <ul class="flex-row">
+                  <li id="upcoming-nav-link" class="nav-link"><a href="#"></a>upcoming movies</li>
                   <li id="search-nav-link" class="nav-link"><a href="#"></a>search</li>
                 </ul>
               </div>
@@ -50,6 +51,11 @@
                 <button class="search-btn" type="submit">search</button>
               </form>
             </div>
+          </div>
+        </div>
+        <div class="row flex-row pad-top-bottom">
+          <div class="column-half flex-row justify-content-center">
+            <button class="upcoming-movie-btn">Upcoming Movies</button>
           </div>
         </div>
       </div>
@@ -98,6 +104,15 @@
           </div>
         </div>
       </div>
+      <div class="hidden" data-view="upcoming-movies-view">
+        <div class="row pad-bottom">
+          <div class="column">
+            <h1 class="filter-movie-header">Upcoming Movies</h1>
+          </div>
+        </div>
+        <ul id="upcoming-movie-render-ul">
+        </ul>
+      </div>
     </div>
   </main>
   <footer>
@@ -113,7 +128,13 @@
               <button class="search-btn-footer" type="submit">search</button>
             </form>
           </div>
+          <div class="column-full">
+            <ul class="flex-row align-cont-center justify-content-center">
+              <li class="footer-link"><a href="#"></a>upcoming movies</li>
+            </ul>
+          </div>
         </div>
+
       </div>
     </div>
   </footer>

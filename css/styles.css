@@ -171,6 +171,25 @@ input:focus {
   appearance: none;
 }
 
+.upcoming-movie-btn {
+  background-color: #0f4b57;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  min-width: 50%;
+  max-width: 80%;
+  margin: 0 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.upcoming-movie-btn:hover {
+  background-color: #26a7ba;
+}
+
 /* movie info block */
 
 .movie-img-small {
