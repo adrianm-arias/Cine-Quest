@@ -4,7 +4,9 @@ var data = {
   movies: [],
   favorites: [],
   modal: [],
-  nextEntryId: 1
+  nextEntryId: 1,
+  resultNumber: null,
+  searchKeyword: ''
 };
 
 var previousMovieEntryJSON = localStorage.getItem('movie-data-storage');

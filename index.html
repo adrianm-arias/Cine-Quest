@@ -46,7 +46,7 @@
                 our vast movie database.</p>
               <form action="" class="search-form">
                 <label for="movie-search"></label>
-                <input class="search-input" placeholder="Enter a movie title" type="search" id="movie-search" name="search">
+                <input class="search-input" placeholder="Enter a movie title" type="search" id="movie-search" name="search" required>
                 <button class="search-btn" type="submit">search</button>
               </form>
             </div>
@@ -56,7 +56,7 @@
       <div class="hidden" data-view="search-movies">
         <div class="row pad-top-bottom">
           <div class="column-full">
-            <p class="search-results-info"> <span class="search-results-number">'57'</span> Search Results for <span class="search-results-keyword">'keyword'</span></p>
+            <p class="search-results-info"> <span class="search-results-number">'#'</span> Search Results for <span class="search-results-keyword">keyword</span></p>
           </div>
         </div>
         <ul id="movie-render-ul">
@@ -109,7 +109,7 @@
             <form action="" class="footer-form">
               <label for="movie-search"></label>
               <input class="search-input-footer" placeholder="Enter a movie title" type="search" id="movie-search-footer"
-                name="search">
+                name="search" required>
               <button class="search-btn-footer" type="submit">search</button>
             </form>
           </div>
