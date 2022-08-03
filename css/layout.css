@@ -65,3 +65,19 @@
 .nav-margin-top {
   margin-top: 75px;
 }
+
+.footer-margin-bottom {
+  margin-bottom: 100px;
+}
+
+.column-one-thirds {
+  max-width: 33%;
+}
+
+.column-two-thirds {
+  width: 66%;
+}
+
+.pad-bottom {
+  padding-bottom: 1rem;
+}

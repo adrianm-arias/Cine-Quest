@@ -24,10 +24,10 @@
               <p class="logo">movie finder</p>
               <div>
                 <ul class="flex-row">
-                  <li class="nav-link"><a href="#"></a>upcoming movies</li>
+                  <!-- <li class="nav-link"><a href="#"></a>upcoming movies</li>
                   <li class="nav-link"><a href="#"></a>popular movies</li>
-                  <li class="nav-link"><a href="#"></a>view my favorites</li>
-                  <li class="nav-link"><a href="#"></a>search</li>
+                  <li class="nav-link"><a href="#"></a>view my favorites</li> -->
+                  <li id="search-nav-link" class="nav-link"><a href="#"></a>search</li>
                 </ul>
               </div>
             </div>
@@ -37,8 +37,8 @@
     </div>
   </header>
   <main>
-    <div class="container pad-top-bottom nav-margin-top">
-      <div data-view="search-form">
+    <div class="container pad-top-bottom nav-margin-top footer-margin-bottom">
+      <div class="" data-view="search-form">
         <div class="row flex-row cover-image">
           <div class="overlay flex-row">
             <div class="column-full flex-column align-cont-center justify-content-center pad-left-right">
@@ -53,6 +53,16 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="hidden" data-view="search-movies">
+        <div class="row pad-top-bottom">
+          <div class="column-full">
+            <p class="search-results-info"> <span class="search-results-number">'57'</span> Search Results for <span class="search-results-keyword">'keyword'</span></p>
+          </div>
+        </div>
+        <ul id="movie-render-ul">
+
+        </ul>
       </div>
     </div>
   </main>
