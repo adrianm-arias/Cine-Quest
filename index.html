@@ -13,6 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Roboto+Slab:wght@200;400;600&display=swap"
     rel="stylesheet">
   <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
   <header>
@@ -60,6 +62,41 @@
         <ul id="movie-render-ul">
 
         </ul>
+      </div>
+      <div class="hidden" data-view="modal-card-view">
+        <div class="row pos-relative">
+          <div
+            class="column-full flex-row justify-content-center align-cont-center transparent-bg window-full-height pos-fixed">
+            <div class="modal-container pos-relative">
+              <div class="close-modal">
+                <button class="modal-btn">X</button>
+              </div>
+              <div class="row flex-column justify-content-center pad-bottom">
+                <div class="row">
+                  <div class="column-full">
+                    <h1 class="movie-title-card">Movie Title</h1>
+                  </div>
+                </div>
+                <div class="row flex-row pad-bottom">
+                  <div class="column-half">
+                    <img class="movie-img-card" src="/images/placerholder-image.jpeg">
+                  </div>
+                  <div class="column-half movie-card-wrapper">
+                    <h2 class="movie-info-card">Release Date:</h2>
+                    <h2 class="movie-info-card-date pad-bottom"></h2>
+                    <h2 class="movie-info-card">User Rating:</h2>
+                    <h2 class="movie-info-card-rating pad-bottom"></h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="column-full">
+                    <p class="movie-info-card-desc">Movie Description</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>

@@ -9,6 +9,8 @@ var $searchFooterForm = document.querySelector('.footer-form');
 // listen for submit event on main search input
 $searchForm.addEventListener('submit', function (event) {
   event.preventDefault();
+  data.movies = [];
+  data.nextEntryId = 1;
   document.querySelectorAll('[data-entry-id]').forEach(function (event) {
     event.remove();
   });
@@ -63,7 +65,9 @@ function searchApi(keyword) {
         movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
       }
       movieEntry.entryId = data.nextEntryId;
+      movieEntry.description = response[i].overview;
       data.nextEntryId++;
+      data.movies.push(movieEntry);
       var renderNewMovie = renderMovies(movieEntry);
       var ulElement = document.getElementById('movie-render-ul');
       ulElement.appendChild(renderNewMovie);
@@ -133,3 +137,37 @@ function renderMovies(movie) {
 
   return liItem;
 }
+
+var $movieDetailsUl = document.getElementById('movie-render-ul');
+
+// this event gets the ID of select movie whose button is clicked to view more information
+$movieDetailsUl.addEventListener('click', function (event) {
+  if (event.target && event.target.matches('BUTTON')) {
+    var targetLi = event.target.closest('li');
+    var targetId = targetLi.getAttribute('data-entry-id');
+    var targetIdNumber = parseInt(targetId);
+    for (var i = 0; i < data.movies.length; i++) {
+      if (targetIdNumber === data.movies[i].entryId) {
+        var $modalCardTitle = document.querySelector('.movie-title-card');
+        $modalCardTitle.textContent = data.movies[i].title;
+        var $modalCardDate = document.querySelector('.movie-info-card-date');
+        $modalCardDate.textContent = data.movies[i].releaseDate;
+        var $modalCardRating = document.querySelector('.movie-info-card-rating');
+        $modalCardRating.textContent = data.movies[i].userRating + ' / 10';
+        var $modalCardUrl = document.querySelector('.movie-img-card');
+        $modalCardUrl.setAttribute('src', data.movies[i].posterUrl);
+        var $modalCardDesc = document.querySelector('.movie-info-card-desc');
+        $modalCardDesc.textContent = data.movies[i].description;
+      }
+    }
+    var $modalCard = document.querySelector('[data-view="modal-card-view"]');
+    $modalCard.className = '';
+  }
+});
+
+// this event close the modal when X button is
+var $closeModalBtn = document.querySelector('.modal-btn');
+$closeModalBtn.addEventListener('click', function (event) {
+  var $modalCard = document.querySelector('[data-view="modal-card-view"]');
+  $modalCard.className = 'hidden';
+});
