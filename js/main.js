@@ -9,6 +9,9 @@ var $searchFooterForm = document.querySelector('.footer-form');
 // listen for submit event on main search input
 $searchForm.addEventListener('submit', function (event) {
   event.preventDefault();
+  document.querySelectorAll('[data-entry-id]').forEach(function (event) {
+    event.remove();
+  });
   var searchQuery = $searchForm.elements.search.value;
   $searchForm.reset();
   searchApi(searchQuery);
@@ -20,6 +23,9 @@ $searchForm.addEventListener('submit', function (event) {
 // listens for submit event on footer search input
 $searchFooterForm.addEventListener('submit', function (event) {
   event.preventDefault();
+  document.querySelectorAll('[data-entry-id]').forEach(function (event) {
+    event.remove();
+  });
   var searchQuery = $searchFooterForm.elements.search.value;
   $searchFooterForm.reset();
   searchApi(searchQuery);
@@ -45,20 +51,23 @@ function searchApi(keyword) {
   xhr.addEventListener('load', function () {
     var response = xhr.response.results;
     $searchResultNumber.textContent = xhr.response.total_results;
-    // console.log($searchForm.elements.search.value);
     for (var i = 0; i < response.length; i++) {
       var movieEntry = {};
       movieEntry.title = response[i].title;
       movieEntry.releaseDate = response[i].release_date;
       movieEntry.userRating = response[i].vote_average;
       movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
+      if (response[i].poster_path === null) {
+        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
+      } else {
+        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
+      }
       movieEntry.entryId = data.nextEntryId;
       data.nextEntryId++;
       var renderNewMovie = renderMovies(movieEntry);
       var ulElement = document.getElementById('movie-render-ul');
       ulElement.appendChild(renderNewMovie);
     }
-    // make search console dissapear
   });
   xhr.send();
 }

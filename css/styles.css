@@ -218,7 +218,7 @@ input:focus {
 }
 
 .search-results-keyword {
-  text-transform: uppercase;
+  text-transform: italic;
   color: #0f4b57;
   font-weight: 700;
 }
