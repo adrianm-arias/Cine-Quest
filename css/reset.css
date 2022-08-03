@@ -1,7 +1,23 @@
 * {
   box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
 }
 
 body {
   margin: 0;
+  font-family: "Roboto Slab", serif;
+}
+
+h1,
+h2 {
+  font-family: Montserrat, sans-serif;
+}
+
+p {
+  font-family: "Roboto Slab", serif;
+}
+
+ul {
+  padding: 0;
 }

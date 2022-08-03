@@ -8,12 +8,78 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Roboto+Slab:wght@200;400;600&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
 </head>
 <body>
   <header>
+    <div class="nav-bar-bg navbar">
+      <div class="container pad-left-right">
+        <nav>
+          <div class="row flex-row">
+            <div class="column-full flex-row space-between align-cont-center">
+              <p class="logo">movie finder</p>
+              <div>
+                <ul class="flex-row">
+                  <li id="search-nav-link" class="nav-link"><a href="#"></a>search</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
   </header>
   <main>
+    <div class="container pad-top-bottom nav-margin-top footer-margin-bottom">
+      <div class="" data-view="search-form">
+        <div class="row flex-row cover-image">
+          <div class="overlay flex-row">
+            <div class="column-full flex-column align-cont-center justify-content-center pad-left-right">
+              <h1 class="white-text header">Search Any Movie Title</h1>
+              <p class="white-text">Discover details about any movie from
+                our vast movie database.</p>
+              <form action="" class="search-form">
+                <label for="movie-search"></label>
+                <input class="search-input" placeholder="Enter a movie title" type="search" id="movie-search" name="search">
+                <button class="search-btn" type="submit">search</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hidden" data-view="search-movies">
+        <div class="row pad-top-bottom">
+          <div class="column-full">
+            <p class="search-results-info"> <span class="search-results-number">'57'</span> Search Results for <span class="search-results-keyword">'keyword'</span></p>
+          </div>
+        </div>
+        <ul id="movie-render-ul">
+
+        </ul>
+      </div>
+    </div>
   </main>
+  <footer>
+    <div class="footer-bg footer flex-row align-cont-center">
+      <div class="container pad-left-right">
+        <div class="row flex-row flex-wrap-footer">
+          <div class="column-full flex-row space-between align-cont-center">
+            <p class="logo-footer">movie finder</p>
+            <form action="" class="footer-form">
+              <label for="movie-search"></label>
+              <input class="search-input-footer" placeholder="Enter a movie title" type="search" id="movie-search-footer"
+                name="search">
+              <button class="search-btn-footer" type="submit">search</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
