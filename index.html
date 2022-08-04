@@ -17,22 +17,22 @@
 
 </head>
 <body>
-  <header>
-    <div class="nav-bar-bg navbar">
-      <div class="container pad-left-right">
-        <nav>
-          <div class="row flex-row">
-            <div class="column-full flex-row space-between align-cont-center">
-              <p class="logo">movie finder</p>
-              <div>
-                <ul class="flex-row">
-                  <li id="search-nav-link" class="nav-link"><a href="#"></a>search</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </nav>
+  <header class="navbar">
+    <div class="container nav-flex pad-left-right align-cont-center">
+      <div class="column-half">
+        <p class="logo">movie finder<p>
+        <div id="nav-toggle" class="nav-toggle">
+          <img id="burger-menu" class="nav-icon" src="images/menu-icon.svg" alt="hamburger-menu">
+          <img class="nav-icon hidden" src="images/x-icon.svg" alt="hamburger-menu">
+        </div>
       </div>
+      <nav class="">
+        <ul>
+          <li class="nav-list" id="search-nav-link"><a class="nav-item" href="#">Search</a></li>
+          <li class="nav-list" id="upcoming-nav-link"><a class="nav-item" href="#">Upcoming Movies</a></li>
+          <li class="nav-list" id="popular-nav-link"><a class="nav-item" href="#">Popular Movies</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
   <main>
@@ -50,6 +50,11 @@
                 <button class="search-btn" type="submit">search</button>
               </form>
             </div>
+          </div>
+        </div>
+        <div class="row flex-row pad-top-bottom">
+          <div class="column-half flex-row">
+            <button class="upcoming-movie-btn">Upcoming Movies</button>
           </div>
         </div>
       </div>
@@ -98,6 +103,15 @@
           </div>
         </div>
       </div>
+      <div class="hidden" data-view="upcoming-movies-view">
+        <div class="row pad-bottom">
+          <div class="column">
+            <h1 class="filter-movie-header">Upcoming Movies</h1>
+          </div>
+        </div>
+        <ul id="upcoming-movie-render-ul">
+        </ul>
+      </div>
     </div>
   </main>
   <footer>
@@ -113,7 +127,13 @@
               <button class="search-btn-footer" type="submit">search</button>
             </form>
           </div>
+          <div class="column-full">
+            <ul class="flex-row align-cont-center pad-top-bottom">
+              <li id="upcoming-footer-link" class="footer-link"><a href="#"></a>upcoming movies</li>
+            </ul>
+          </div>
         </div>
+
       </div>
     </div>
   </footer>
