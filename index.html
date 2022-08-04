@@ -18,22 +18,22 @@
 </head>
 <body>
   <header>
-    <div class="nav-bar-bg navbar">
-      <div class="container pad-left-right">
-        <nav>
-          <div class="row flex-row">
-            <div class="column-full flex-row space-between align-cont-center">
-              <p class="logo">movie finder</p>
-              <div>
-                <ul class="flex-row">
-                  <li id="upcoming-nav-link" class="nav-link"><a href="#"></a>upcoming movies</li>
-                  <li id="search-nav-link" class="nav-link"><a href="#"></a>search</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </nav>
+    <div class="container navbar nav-flex pad-left-right align-cont-center">
+      <div class="column-half">
+        <p class="logo">movie finder<p>
+        <div id="nav-toggle" class="nav-toggle">
+          <img id="burger-menu" class="nav-icon" src="images/menu-icon.svg" alt="hamburger-menu">
+          <img class="nav-icon hidden" src="images/x-icon.svg" alt="hamburger-menu">
+        </div>
       </div>
+      <nav class="">
+        <ul>
+          <li class="nav-list"><a class="nav-item" href="#">Upcoming Movies</a></li>
+          <li class="nav-list"><a class="nav-item" href="#">Popular Movies</a></li>
+
+          <li class="nav-list"><a class="nav-item" href="#">Search</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
   <main>
@@ -131,6 +131,8 @@
           <div class="column-full">
             <ul class="flex-row align-cont-center justify-content-center">
               <li class="footer-link"><a href="#"></a>upcoming movies</li>
+              <li class="footer-link"><a href="#"></a>Popular movies</li>
+              <li class="footer-link"><a href="#"></a>Now Playing</li>
             </ul>
           </div>
         </div>

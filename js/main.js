@@ -69,14 +69,13 @@ $searchFooterForm.addEventListener('submit', function (event) {
 
 // CHANGES VIEWS TO SEARCH FORM (NAV LINK)
 
-var $searchNavLink = document.getElementById('search-nav-link');
-$searchNavLink.addEventListener('click', function (event) {
-  $viewSearchMovies.className = 'hidden';
-  $upcomingMoviesView.className = 'hidden';
-  $viewSearchForm.className = '';
-  data.view = 'search-form';
-
-});
+// var $searchNavLink = document.getElementById('search-nav-link');
+// $searchNavLink.addEventListener('click', function (event) {
+//   $viewSearchMovies.className = 'hidden';
+//   $upcomingMoviesView.className = 'hidden';
+//   $viewSearchForm.className = '';
+//   data.view = 'search-form';
+// });
 
 // API FOR SEARCH BY MOVIE TITLE FEATURE
 
@@ -224,16 +223,6 @@ $closeModalBtn.addEventListener('click', function (event) {
 });
 
 window.addEventListener('DOMContentLoaded', function loadMovies() {
-// LOADS MOVIE DATA FROM MOVIES ARRAY (PREVIOUS API SEARCH QUERY)
-
-  for (var i = 0; i < data.movies.length; i++) {
-    var ulElement = document.getElementById('movie-render-ul');
-    var movieRefresh = renderMovies(data.movies[i]);
-    ulElement.appendChild(movieRefresh);
-    $searchResultNumber.textContent = data.resultNumber;
-    $searchResultKeyword.textContent = data.searchKeyword;
-  }
-
   // ENSURES CORRECT PAGE VIEW IS LOADED AFTER PAGE REFRESH
 
   if (data.view === 'search-form') {
@@ -241,6 +230,13 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $viewSearchMovies.className = 'hidden';
   }
   if (data.view === 'search-movies') {
+    for (var i = 0; i < data.movies.length; i++) {
+      var ulElement = document.getElementById('movie-render-ul');
+      var movieRefresh = renderMovies(data.movies[i]);
+      ulElement.appendChild(movieRefresh);
+      $searchResultNumber.textContent = data.resultNumber;
+      $searchResultKeyword.textContent = data.searchKeyword;
+    }
     $viewSearchMovies.className = '';
     $viewSearchForm.className = 'hidden';
   }
@@ -260,6 +256,11 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $modalCardDesc.textContent = data.modal[0].description;
   }
   if (data.view === 'upcoming-movies-view') {
+    for (var y = 0; y < data.movies.length; y++) {
+      var ulElementUpcoming = document.getElementById('upcoming-movie-render-ul');
+      var upcomingMovieRefresh = renderMovies(data.movies[y]);
+      ulElementUpcoming.appendChild(upcomingMovieRefresh);
+    }
     $upcomingMoviesView.className = '';
     $viewSearchForm.className = 'hidden';
     $viewSearchMovies.className = 'hidden';
@@ -311,4 +312,28 @@ $upcomingMoviesBtn.addEventListener('click', function () {
     $viewSearchForm.className = 'hidden';
   });
   xhr.send();
+});
+
+// RESPONSIVE NAV BAR
+
+var $navToggle = document.getElementById('nav-toggle');
+var $navElement = document.querySelector('nav');
+var $navIcon = document.querySelectorAll('.nav-icon');
+var $burgerMenu = document.querySelector('#burger-menu');
+
+$navToggle.addEventListener('click', function () {
+  $navElement.classList.toggle('nav-open');
+  $navIcon.forEach(icon => {
+    icon.classList.toggle('hidden');
+  });
+});
+
+window.addEventListener('resize', function () {
+  if (document.body.clientWidth > 768) {
+    $navElement.classList.remove('nav-open');
+    $navIcon.forEach(icon => {
+      icon.classList.add('hidden');
+    });
+    $burgerMenu.classList.remove('hidden');
+  }
 });
