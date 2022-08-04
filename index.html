@@ -17,8 +17,8 @@
 
 </head>
 <body>
-  <header>
-    <div class="container navbar nav-flex pad-left-right align-cont-center">
+  <header class="navbar">
+    <div class="container nav-flex pad-left-right align-cont-center">
       <div class="column-half">
         <p class="logo">movie finder<p>
         <div id="nav-toggle" class="nav-toggle">
@@ -28,10 +28,9 @@
       </div>
       <nav class="">
         <ul>
-          <li class="nav-list"><a class="nav-item" href="#">Upcoming Movies</a></li>
-          <li class="nav-list"><a class="nav-item" href="#">Popular Movies</a></li>
-
-          <li class="nav-list"><a class="nav-item" href="#">Search</a></li>
+          <li class="nav-list" id="search-nav-link"><a class="nav-item" href="#">Search</a></li>
+          <li class="nav-list" id="upcoming-nav-link"><a class="nav-item" href="#">Upcoming Movies</a></li>
+          <li class="nav-list" id="popular-nav-link"><a class="nav-item" href="#">Popular Movies</a></li>
         </ul>
       </nav>
     </div>
@@ -54,7 +53,7 @@
           </div>
         </div>
         <div class="row flex-row pad-top-bottom">
-          <div class="column-half flex-row justify-content-center">
+          <div class="column-half flex-row">
             <button class="upcoming-movie-btn">Upcoming Movies</button>
           </div>
         </div>
@@ -129,10 +128,8 @@
             </form>
           </div>
           <div class="column-full">
-            <ul class="flex-row align-cont-center justify-content-center">
-              <li class="footer-link"><a href="#"></a>upcoming movies</li>
-              <li class="footer-link"><a href="#"></a>Popular movies</li>
-              <li class="footer-link"><a href="#"></a>Now Playing</li>
+            <ul class="flex-row align-cont-center pad-top-bottom">
+              <li id="upcoming-footer-link" class="footer-link"><a href="#"></a>upcoming movies</li>
             </ul>
           </div>
         </div>

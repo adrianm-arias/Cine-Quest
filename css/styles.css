@@ -41,6 +41,7 @@ ul {
   float: right;
   margin-top: auto;
   margin-bottom: auto;
+  transition: 0.2s border ease-in-out, 0.2s padding ease-in-out;
 }
 
 .nav-item {
@@ -52,17 +53,20 @@ ul {
   cursor: pointer;
 }
 
+.nav-list:hover {
+  border-bottom: solid #0f4b57 2px;
+}
+
 .nav-contain {
   padding: 0 2rem;
 }
 
-/* .navbar {
+.navbar {
   overflow: hidden;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 8vh;
-} */
+}
 
 header {
   background-color: #26a7ba;
@@ -397,9 +401,14 @@ input:focus {
 
   .nav-list {
     display: block;
-    padding: 0.5rem 0;
-    border-bottom: solid white 1.5px;
+    padding: 1rem 0;
+    border-bottom: solid white 1px;
     width: 100%;
+  }
+
+  .nav-list:hover {
+    padding-bottom: 0.5rem;
+    border-bottom: solid #0f4b57 2px;
   }
 
   .nav-item {
@@ -417,6 +426,6 @@ input:focus {
   }
 
   .nav-open {
-    height: 50vh;
+    height: 30vh;
   }
 }
