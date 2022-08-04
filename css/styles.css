@@ -122,15 +122,6 @@ header {
   width: 25rem;
 }
 
-.search-input-footer {
-  border-radius: 5rem;
-  border: solid #26a7ba 1px;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  margin-right: 1rem;
-  width: 11rem;
-}
-
 .search-form {
   margin: 3rem 1rem;
 }
@@ -155,7 +146,8 @@ input:focus {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 10vh;
+
+  /* height: 10vh; */
 }
 
 .logo-footer {
@@ -189,11 +181,19 @@ input:focus {
   background-color: transparent;
   color: white;
   border-radius: 5rem;
-  font-size: 0.9rem;
-  padding: 0.5rem;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
   cursor: pointer;
-  width: 5rem;
+  margin-top: 0.5rem;
   transition: border-color 0.5s, background-color 0.5s, color 0.5s;
+}
+
+.search-input-footer {
+  border-radius: 5rem;
+  border: solid #26a7ba 1px;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  margin-right: 0.2rem;
 }
 
 .footer-form {
@@ -213,22 +213,23 @@ input:focus {
   appearance: none;
 }
 
-.upcoming-movie-btn {
+.upcoming-movie-btn,
+.popular-movie-btn {
   background-color: #0f4b57;
   color: white;
   border: none;
   padding: 1rem 2rem;
   font-size: 0.9rem;
   text-transform: uppercase;
-  min-width: 50%;
-  max-width: 80%;
+  width: 70%;
   margin: 0 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.5s;
 }
 
-.upcoming-movie-btn:hover {
+.upcoming-movie-btn:hover,
+.popular-movie-btn:hover {
   background-color: #26a7ba;
 }
 
@@ -386,9 +387,9 @@ input:focus {
     flex-wrap: wrap;
   }
 
-  .footer {
-    height: 15vh;
-  }
+  /* .footer {
+    height: 20vh;
+  } */
 
   .footer-link {
     text-align: center;
@@ -427,5 +428,10 @@ input:focus {
 
   .nav-open {
     height: 30vh;
+  }
+
+  .upcoming-movie-btn,
+  .popular-movie-btn {
+    width: 100%;
   }
 }
