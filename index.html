@@ -52,9 +52,12 @@
             </div>
           </div>
         </div>
-        <div class="row flex-row pad-top-bottom">
-          <div class="column-half flex-row">
+        <div class="row flex-row pad-top-bottom just">
+          <div class="column-half flex-row justify-content-center">
             <button class="upcoming-movie-btn">Upcoming Movies</button>
+          </div>
+          <div class="column-half flex-row justify-content-center">
+            <button class="popular-movie-btn">Popular Movies</button>
           </div>
         </div>
       </div>
@@ -112,28 +115,35 @@
         <ul id="upcoming-movie-render-ul">
         </ul>
       </div>
+      <div class="hidden" data-view="popular-movies-view">
+        <div class="row pad-bottom">
+          <div class="column">
+            <h1>Popular Movies</h1>
+          </div>
+        </div>
+        <ul id="popular-movie-render-ul">
+        </ul>
+      </div>
     </div>
   </main>
   <footer>
-    <div class="footer-bg footer flex-row align-cont-center">
-      <div class="container pad-left-right">
-        <div class="row flex-row flex-wrap-footer">
-          <div class="column-full flex-row space-between align-cont-center">
-            <p class="logo-footer">movie finder</p>
-            <form action="" class="footer-form">
-              <label for="movie-search"></label>
-              <input class="search-input-footer" placeholder="Enter a movie title" type="search" id="movie-search-footer"
-                name="search" required>
-              <button class="search-btn-footer" type="submit">search</button>
-            </form>
-          </div>
-          <div class="column-full">
-            <ul class="flex-row align-cont-center pad-top-bottom">
-              <li id="upcoming-footer-link" class="footer-link"><a href="#"></a>upcoming movies</li>
-            </ul>
-          </div>
+    <div class="footer-bg footer flex-row align-cont-center container pad-left-right">
+      <div class="row flex-row flex-wrap-footer">
+        <div class="column-half flex-row space-between align-cont-center pad-left-right">
+          <p class="logo-footer">movie finder</p>
+          <form action="" class="footer-form">
+            <label for="movie-search"></label>
+            <input class="search-input-footer" placeholder="Enter a movie title" type="search" id="movie-search-footer"
+              name="search" required>
+            <button class="search-btn-footer" type="submit">search</button>
+          </form>
         </div>
-
+        <div class="column-half pad-left-right">
+          <ul class="flex-row align-cont-center pad-top-bottom space-between">
+            <li id="upcoming-footer-link" class="footer-link"><a href="#"></a>upcoming movies</li>
+            <li id="popular-footer-link" class="footer-link"><a href="#"></a>popular movies</li>
+          </ul>
+        </div>
       </div>
     </div>
   </footer>
