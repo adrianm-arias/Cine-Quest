@@ -182,6 +182,8 @@ function renderMovies(movie) {
   movieBtn.className = 'movie-btn';
   divWrapper.appendChild(movieBtn);
 
+  // add + button here
+
   return liItem;
 }
 
@@ -610,3 +612,18 @@ $popularFooterLink.addEventListener('click', function () {
   });
   xhr.send();
 });
+
+// now playing api
+
+// document.addEventListener('click', function () {
+//   var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/now_playing?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+//   xhr.setRequestHeader('token', 'abc123');
+//   xhr.responseType = 'json';
+//   xhr.addEventListener('load', function () {
+//     var response = xhr.response.results;
+//     console.log(response);
+//   });
+//   xhr.send();
+// });
