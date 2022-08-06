@@ -28,15 +28,24 @@
       </div>
       <nav class="">
         <ul>
-          <li class="nav-list" id="search-nav-link"><a class="nav-item" href="#">Search</a></li>
-          <li class="nav-list" id="upcoming-nav-link"><a class="nav-item" href="#">Upcoming Movies</a></li>
-          <li class="nav-list" id="popular-nav-link"><a class="nav-item" href="#">Popular Movies</a></li>
+          <li class="nav-list"><a id="search-nav-link" class="nav-item" href="#">Search</a></li>
+          <li class="nav-list"><a id="upcoming-nav-link" class="nav-item" href="#">Upcoming Movies</a></li>
+          <li class="nav-list"><a id="popular-nav-link" class="nav-item" href="#">Popular Movies</a></li>
+          <li class="nav-list"><a id="watch-list-nav-link" class="nav-item" href="#">watch list</a></li>
         </ul>
       </nav>
     </div>
   </header>
   <main>
     <div class="container pad-top-bottom nav-margin-top footer-margin-bottom">
+      <div class="hidden" data-view="added-movie-modal">
+        <div class="row modal-movie-added flex-row align-cont-center">
+          <div class="column-full flex-row space-between">
+            <p class="movie-added-title">Movie successfully added.</p>
+            <a class="modal-view-list-link" href="#">View List</a>
+          </div>
+        </div>
+      </div>
       <div class="" data-view="search-form">
         <div class="row flex-row cover-image">
           <div class="overlay flex-row">
@@ -93,6 +102,10 @@
                     <h2 class="movie-info-card-date pad-bottom"></h2>
                     <h2 class="movie-info-card">User Rating:</h2>
                     <h2 class="movie-info-card-rating pad-bottom"></h2>
+                    <div id="add-icon-modal" class="flex-row align-cont-center">
+                      <img src="images/add-icon.svg" class="add-modal-icon">
+                      <h2 class="movie-info-card">Add to Watch List</h2>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
@@ -123,32 +136,14 @@
         <ul id="popular-movie-render-ul">
         </ul>
       </div>
-      <div class="" data-view="search-movies">
-        <div class="row pad-top-bottom">
-          <div class="column-full">
-            <p class="search-results-info"> <span class="search-results-number">'#'</span> Search Results for <span
-                class="search-results-keyword">keyword</span></p>
+      <div class="hidden" data-view="watch-list-view">
+        <div class="row pad-bottom">
+          <div class="column">
+            <h1>Watch List</h1>
           </div>
         </div>
-        <ul id="movie-render-uls">
-          <li>
-            <div class="row flex-row justify-content-center pad-bottom">
-              <div class="column-one-thirds">
-                <img class="movie-img-small" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg">
-              </div>
-              <div class="column-two-thirds flex-row movie-border align-cont-center">
-                <div class="movie-details-wrapper">
-                  <h1 class="movie-title">Spider-Man: No Way Home</h1>
-                  <h2 class="movie-info">Release Date: 2021-12-15</h2>
-                  <h2 class="movie-info">User Rating: 8.1 / 10</h2>
-                  <button class="movie-btn">View Movie Details</button>
-                  <div>
-                    <img class="nav-icon hidden" src="images/x-icon.svg" alt="hamburger-menu">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
+        <ul id="watch-list-render-ul">
+
         </ul>
       </div>
     </div>
@@ -167,8 +162,9 @@
         </div>
         <div class="column-half pad-left-right">
           <ul class="flex-row align-cont-center pad-top-bottom space-between">
-            <li id="upcoming-footer-link" class="footer-link"><a href="#"></a>upcoming movies</li>
+            <li id="watch-list-footer-link" class="footer-link"><a href="#"></a>watch list</li>
             <li id="popular-footer-link" class="footer-link"><a href="#"></a>popular movies</li>
+            <li id="upcoming-footer-link" class="footer-link"><a href="#"></a>upcoming movies</li>
           </ul>
         </div>
       </div>

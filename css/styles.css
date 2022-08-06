@@ -370,6 +370,67 @@ input:focus {
   background-color: #ad343e;
 }
 
+.add-icon {
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  background-color: #26a7ba;
+  border-radius: 5rem;
+  padding: 0.4rem;
+  margin: 1rem 2rem;
+}
+
+.add-modal-icon {
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  background-color: #26a7ba;
+  border-radius: 5rem;
+  padding: 0.4rem;
+  margin: 1rem 0.5rem;
+}
+
+.subtract-icon {
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  background-color: #ad343e;
+  border-radius: 5rem;
+  padding: 0.4rem;
+  margin: 1rem 2rem;
+}
+
+/* MOVIE ADDED MODAL */
+
+.modal-movie-added {
+  background-color: #26a7ba;
+  width: 70%;
+  padding: 0 1rem;
+  border-radius: 1rem;
+  position: fixed;
+  top: 85px;
+  right: 0;
+  left: 0;
+  height: 4vh;
+}
+
+.movie-added-title {
+  color: white;
+  font-family: "Roboto Slab", serif;
+  padding: 0;
+  margin: 0;
+  font-weight: 300;
+}
+
+.modal-view-list-link {
+  color: white;
+  font-family: "Roboto Slab", serif;
+  padding: 0;
+  margin: 0;
+  font-weight: 300;
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .column-half {
     width: 100%;
@@ -386,10 +447,6 @@ input:focus {
   .flex-wrap-footer {
     flex-wrap: wrap;
   }
-
-  /* .footer {
-    height: 20vh;
-  } */
 
   .footer-link {
     text-align: center;
