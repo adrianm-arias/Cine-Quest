@@ -18,7 +18,7 @@ var $searchFooterForm = document.querySelector('.footer-form');
 // LISTENS FOR SUBMIT EVENT ON MAIN SEARCH INPUT
 
 $searchForm.addEventListener('submit', function (event) {
-  // RESETS DATA OBJECT
+  // resets data object
 
   event.preventDefault();
   $upcomingMoviesView.className = 'hidden';
@@ -32,7 +32,7 @@ $searchForm.addEventListener('submit', function (event) {
     event.remove();
   });
 
-  // BEGINS SEARCH QUERY FOR API
+  // calls search query for api
 
   var searchQuery = $searchForm.elements.search.value;
   $searchForm.reset();
@@ -47,7 +47,7 @@ $searchForm.addEventListener('submit', function (event) {
 // LISTENS FOR SUBMIT EVENT ON FOOTER SEARCH INPUT
 
 $searchFooterForm.addEventListener('submit', function (event) {
-  // RESETS DATA OBJECT
+  // resets data object
 
   event.preventDefault();
   $upcomingMoviesView.className = 'hidden';
@@ -61,7 +61,7 @@ $searchFooterForm.addEventListener('submit', function (event) {
     event.remove();
   });
 
-  // BEGINS SEARCH QUERY FOR API
+  // begins search query for api
 
   var searchQuery = $searchFooterForm.elements.search.value;
   $searchFooterForm.reset();
@@ -208,32 +208,42 @@ document.addEventListener('click', function (event) {
     var targetLi = event.target.closest('li');
     var targetId = targetLi.getAttribute('data-entry-id');
     var targetIdNumber = parseInt(targetId);
-    var movieCardModal = {};
-    for (var i = 0; i < data.movies.length; i++) {
-      if (targetIdNumber === data.movies[i].entryId) {
-        var $modalCardTitle = document.querySelector('.movie-title-card');
-        $modalCardTitle.textContent = data.movies[i].title;
-        movieCardModal.title = data.movies[i].title;
-        var $modalCardDate = document.querySelector('.movie-info-card-date');
-        $modalCardDate.textContent = data.movies[i].releaseDate;
-        movieCardModal.date = data.movies[i].releaseDate;
-        var $modalCardRating = document.querySelector('.movie-info-card-rating');
-        $modalCardRating.textContent = data.movies[i].userRating + ' / 10';
-        movieCardModal.rating = data.movies[i].userRating + ' / 10';
-        var $modalCardUrl = document.querySelector('.movie-img-card');
-        $modalCardUrl.setAttribute('src', data.movies[i].posterUrl);
-        movieCardModal.imgUrl = data.movies[i].posterUrl;
-        var $modalCardDesc = document.querySelector('.movie-info-card-desc');
-        $modalCardDesc.textContent = data.movies[i].description;
-        movieCardModal.description = data.movies[i].description;
-        movieCardModal.entryId = data.movies[i].entryId;
-        var $modalDataEntryId = document.getElementById('add-icon-modal');
-        $modalDataEntryId.setAttribute('data-entry-id', data.movies[i].entryId);
-        // liItem.setAttribute('data-entry-id', movie.entryId);
 
+    if (data.view === 'watch-list-view') {
+      for (var i = 0; i < data.favorites.length; i++) {
+        if (targetIdNumber === data.favorites[i].entryId) {
+          var $modalCardTitleList = document.querySelector('.movie-title-card');
+          $modalCardTitleList.textContent = data.favorites[i].title;
+          var $modalCardDateList = document.querySelector('.movie-info-card-date');
+          $modalCardDateList.textContent = data.favorites[i].date;
+          var $modalCardRatingList = document.querySelector('.movie-info-card-rating');
+          $modalCardRatingList.textContent = data.favorites[i].rating + ' / 10';
+          var $modalCardUrlList = document.querySelector('.movie-img-card');
+          $modalCardUrlList.setAttribute('src', data.favorites[i].posterUrl);
+          var $modalCardDescList = document.querySelector('.movie-info-card-desc');
+          $modalCardDescList.textContent = data.favorites[i].description;
+          var $modalDataEntryIdList = document.getElementById('add-icon-modal');
+          $modalDataEntryIdList.setAttribute('data-entry-id', data.favorites[i].entryId);
+        }
+      }
+    } else {
+      for (var y = 0; y < data.movies.length; y++) {
+        if (targetIdNumber === data.movies[y].entryId) {
+          var $modalCardTitle = document.querySelector('.movie-title-card');
+          $modalCardTitle.textContent = data.movies[y].title;
+          var $modalCardDate = document.querySelector('.movie-info-card-date');
+          $modalCardDate.textContent = data.movies[y].releaseDate;
+          var $modalCardRating = document.querySelector('.movie-info-card-rating');
+          $modalCardRating.textContent = data.movies[y].userRating + ' / 10';
+          var $modalCardUrl = document.querySelector('.movie-img-card');
+          $modalCardUrl.setAttribute('src', data.movies[y].posterUrl);
+          var $modalCardDesc = document.querySelector('.movie-info-card-desc');
+          $modalCardDesc.textContent = data.movies[y].description;
+          var $modalDataEntryId = document.getElementById('add-icon-modal');
+          $modalDataEntryId.setAttribute('data-entry-id', data.movies[y].entryId);
+        }
       }
     }
-    data.modal.push(movieCardModal);
     var $modalCard = document.querySelector('[data-view="modal-card-view"]');
     $modalCard.className = '';
   }
@@ -248,8 +258,8 @@ $closeModalBtn.addEventListener('click', function (event) {
   data.modal = [];
 });
 
+// ENSURES CORRECT PAGE VIEW IS LOADED AFTER PAGE REFRESH
 window.addEventListener('DOMContentLoaded', function loadMovies() {
-  // ENSURES CORRECT PAGE VIEW IS LOADED AFTER PAGE REFRESH
 
   if (data.view === 'search-form') {
     $viewSearchForm.className = '';
@@ -304,7 +314,7 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
       var WatchListRefresh = renderMovies(data.favorites[a]);
       ulElementWatchList.appendChild(WatchListRefresh);
     }
-    // CHANGES + ICON TO - (TO REMOVE FROM WATCHLIST)
+    // changes + icon to - (to remove from watchlist)
     var addIcons = document.querySelectorAll('.add-icon');
     addIcons.forEach(function (element) {
       element.setAttribute('src', 'images/subtract-icon.svg');
@@ -324,7 +334,7 @@ document.addEventListener('click', function (event) {
   event.target.matches('#upcoming-footer-link') ||
     event.target.matches('.upcoming-movie-btn')) {
 
-    // HIDES OTHER VIEWS NOT IN USE
+    // hides other views not in use
 
     $viewSearchMovies.className = 'hidden';
     $watchListView.className = 'hidden';
@@ -332,20 +342,20 @@ document.addEventListener('click', function (event) {
     $popularMoviesView.className = 'hidden';
     $upcomingMoviesView.className = '';
 
-    // HIDES NAV ONCE NAV LINK IS CLICKED
+    // hides mobile nav once clicked
 
     $navElement.classList.remove('nav-open');
     $navIcon.forEach(icon => {
       icon.classList.toggle('hidden');
     });
 
-    // RESETS DATA MODEL OBJECT
+    // resets data model object
 
     data.resultNumber = null;
     data.searchKeyword = '';
     data.movies = [];
 
-    // CALLS API FOR UPCOMING MOVIES
+    // calls for api for upcoming movies
 
     var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/upcoming?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
     var xhr = new XMLHttpRequest();
@@ -408,14 +418,14 @@ document.addEventListener('click', function (event) {
     event.target.matches('#popular-footer-link') ||
     event.target.matches('.popular-movie-btn')) {
 
-    // HIDES NAV ONCE NAV LINK IS CLICKED
+    // hides mobile nav once link is clicked
 
     $navElement.classList.remove('nav-open');
     $navIcon.forEach(icon => {
       icon.classList.toggle('hidden');
     });
 
-    // HIDES OTHER VIEWS NOT IN USE
+    // hides other views not in use
 
     $viewSearchMovies.className = 'hidden';
     $watchListView.className = 'hidden';
@@ -423,13 +433,13 @@ document.addEventListener('click', function (event) {
     $upcomingMoviesView.className = 'hidden';
     $popularMoviesView.className = '';
 
-    // RESETS DATA MODEL OBJECT
+    // resets data model object
 
     data.resultNumber = null;
     data.searchKeyword = '';
     data.movies = [];
 
-    // CALLS API FOR POPULAR MOVIES
+    // calls for api for popular movies
 
     var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/popular?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
     var xhr = new XMLHttpRequest();
@@ -515,30 +525,47 @@ document.addEventListener('click', function (event) {
   }
 });
 
-// CHANGES VIEWS TO WATCH LIST FROM FOOTER LINK
-var $watchListFooter = document.getElementById('watch-list-footer-link');
+// ********** LISTENS FOR ALL 'WATCH LIST' LINKS TO SHOW SAVED MOVIES
+document.addEventListener('click', function (event) {
+  if (event.target.matches('#watch-list-footer-link') ||
+    event.target.matches('#watch-list-nav-link')) {
 
-$watchListFooter.addEventListener('click', function () {
-  document.querySelectorAll('[data-entry-id]').forEach(function (event) {
-    event.remove();
-  });
-  for (var x = 0; x < data.favorites.length; x++) {
-    var ulElementWatchList = document.getElementById('watch-list-render-ul');
-    var WatchListRefresh = renderMovies(data.favorites[x]);
-    ulElementWatchList.appendChild(WatchListRefresh);
+    // hides mobile nav once link is clicked
+
+    $navElement.classList.remove('nav-open');
+    $navIcon.forEach(icon => {
+      icon.classList.toggle('hidden');
+    });
+
+    // hides other views not in use
+
+    $viewSearchMovies.className = 'hidden';
+    $viewSearchForm.className = 'hidden';
+    $upcomingMoviesView.className = 'hidden';
+    $popularMoviesView.className = 'hidden';
+    $watchListView.className = 'hidden';
+
+    document.querySelectorAll('[data-entry-id]').forEach(function (event) {
+      event.remove();
+    });
+    for (var x = 0; x < data.favorites.length; x++) {
+      var ulElementWatchList = document.getElementById('watch-list-render-ul');
+      var WatchListRefresh = renderMovies(data.favorites[x]);
+      ulElementWatchList.appendChild(WatchListRefresh);
+    }
+    data.view = 'watch-list-view';
+    $watchListView.className = '';
+    $viewSearchForm.className = 'hidden';
+    $viewSearchMovies.className = 'hidden';
+    $upcomingMoviesView.className = 'hidden';
+    $popularMoviesView.className = 'hidden';
+    // CHANGES + ICON TO - (TO REMOVE FROM WATCHLIST)
+    var addIcons = document.querySelectorAll('.add-icon');
+    addIcons.forEach(function (element) {
+      element.setAttribute('src', 'images/subtract-icon.svg');
+      element.setAttribute('class', 'subtract-icon');
+    });
   }
-  data.view = 'watch-list-view';
-  $watchListView.className = '';
-  $viewSearchForm.className = 'hidden';
-  $viewSearchMovies.className = 'hidden';
-  $upcomingMoviesView.className = 'hidden';
-  $popularMoviesView.className = 'hidden';
-  // CHANGES + ICON TO - (TO REMOVE FROM WATCHLIST)
-  var addIcons = document.querySelectorAll('.add-icon');
-  addIcons.forEach(function (element) {
-    element.setAttribute('src', 'images/subtract-icon.svg');
-    element.setAttribute('class', 'subtract-icon');
-  });
 });
 
 // FUNCTION DELETES MOVIE FROM FAV ARRAY ONCE - BUTTON IS CLICKED
