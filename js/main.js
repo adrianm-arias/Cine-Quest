@@ -15,9 +15,9 @@ var $addedMovieModal = document.querySelector('[data-view="added-movie-modal"]')
 
 var $searchFooterForm = document.querySelector('.footer-form');
 
-// LISTENS FOR SUBMIT EVENT ON MAIN SEARCH INPUT
+// FUNCTION LISTEN FOR SUBMIT EVENT OF SEARCH INPUTS
 
-$searchForm.addEventListener('submit', function (event) {
+document.addEventListener('submit', function (event) {
   // resets data object
 
   event.preventDefault();
@@ -32,45 +32,29 @@ $searchForm.addEventListener('submit', function (event) {
     event.remove();
   });
 
-  // calls search query for api
+  if (event.target.matches('.search-form')) {
+    // calls search api for main input
 
-  var searchQuery = $searchForm.elements.search.value;
-  $searchForm.reset();
-  searchApi(searchQuery);
-  $searchResultKeyword.textContent = searchQuery;
-  data.searchKeyword = searchQuery;
-  $viewSearchMovies.className = '';
-  $viewSearchForm.className = 'hidden';
-  data.view = 'search-movies';
-});
-
-// LISTENS FOR SUBMIT EVENT ON FOOTER SEARCH INPUT
-
-$searchFooterForm.addEventListener('submit', function (event) {
-  // resets data object
-
-  event.preventDefault();
-  $upcomingMoviesView.className = 'hidden';
-  $popularMoviesView.className = 'hidden';
-  $watchListView.className = 'hidden';
-  data.resultNumber = null;
-  data.searchKeyword = '';
-  data.movies = [];
-  data.nextEntryId = 1;
-  document.querySelectorAll('[data-entry-id]').forEach(function (event) {
-    event.remove();
-  });
-
-  // begins search query for api
-
-  var searchQuery = $searchFooterForm.elements.search.value;
-  $searchFooterForm.reset();
-  searchApi(searchQuery);
-  $searchResultKeyword.textContent = searchQuery;
-  data.searchKeyword = searchQuery;
-  $viewSearchMovies.className = '';
-  $viewSearchForm.className = 'hidden';
-  data.view = 'search-movies';
+    var searchQuery = $searchForm.elements.search.value;
+    $searchForm.reset();
+    searchApi(searchQuery);
+    $searchResultKeyword.textContent = searchQuery;
+    data.searchKeyword = searchQuery;
+    $viewSearchMovies.className = '';
+    $viewSearchForm.className = 'hidden';
+    data.view = 'search-movies';
+  }
+  if (event.target.matches('.footer-form')) {
+    // calls search api for footer input
+    var searchQueryFooter = $searchFooterForm.elements.search.value;
+    $searchFooterForm.reset();
+    searchApi(searchQueryFooter);
+    $searchResultKeyword.textContent = searchQueryFooter;
+    data.searchKeyword = searchQueryFooter;
+    $viewSearchMovies.className = '';
+    $viewSearchForm.className = 'hidden';
+    data.view = 'search-movies';
+  }
 });
 
 // CHANGES VIEWS TO SEARCH FORM (NAV LINK)
@@ -208,7 +192,7 @@ document.addEventListener('click', function (event) {
     var targetLi = event.target.closest('li');
     var targetId = targetLi.getAttribute('data-entry-id');
     var targetIdNumber = parseInt(targetId);
-
+    var modalId = {};
     if (data.view === 'watch-list-view') {
       for (var i = 0; i < data.favorites.length; i++) {
         if (targetIdNumber === data.favorites[i].entryId) {
@@ -224,6 +208,7 @@ document.addEventListener('click', function (event) {
           $modalCardDescList.textContent = data.favorites[i].description;
           var $modalDataEntryIdList = document.getElementById('add-icon-modal');
           $modalDataEntryIdList.setAttribute('data-entry-id', data.favorites[i].entryId);
+          modalId.entryId = data.favorites[i].entryId;
         }
       }
     } else {
@@ -241,9 +226,11 @@ document.addEventListener('click', function (event) {
           $modalCardDesc.textContent = data.movies[y].description;
           var $modalDataEntryId = document.getElementById('add-icon-modal');
           $modalDataEntryId.setAttribute('data-entry-id', data.movies[y].entryId);
+          modalId.entryId = data.movies[y].entryId;
         }
       }
     }
+    data.modal.push(modalId);
     var $modalCard = document.querySelector('[data-view="modal-card-view"]');
     $modalCard.className = '';
   }
@@ -486,8 +473,8 @@ document.addEventListener('click', function (event) {
     for (var i = 0; i < data.movies.length; i++) {
       if (targetIdNumber === data.movies[i].entryId) {
         addMovie.title = data.movies[i].title;
-        addMovie.date = data.movies[i].releaseDate;
-        addMovie.rating = data.movies[i].userRating;
+        addMovie.releaseDate = data.movies[i].releaseDate;
+        addMovie.userRating = data.movies[i].userRating;
         addMovie.entryId = data.movies[i].entryId;
         addMovie.posterUrl = data.movies[i].posterUrl;
         addMovie.description = data.movies[i].description;
@@ -500,7 +487,14 @@ document.addEventListener('click', function (event) {
   }
 });
 
-// ADD BUTTON FOR MODAL
+// FUNCTION CLOSES 'MOVIE ADDED MODAL' ONCE VIEW LIST LINK ON MODAL IS CLICKED
+$addedMovieModal.addEventListener('click', function (event) {
+  if (event.target.matches('#watch-list-modal-link')) {
+    hideAddedMovieModal();
+  }
+});
+
+// ADD BUTTON FOR MODAL (movie details view)
 
 document.addEventListener('click', function (event) {
   if (event.target && event.target.matches('.add-modal-icon')) {
@@ -510,8 +504,8 @@ document.addEventListener('click', function (event) {
     var addMovie = {};
     if (targetIdNumber === data.modal[0].entryId) {
       addMovie.title = data.movies[0].title;
-      addMovie.date = data.movies[0].releaseDate;
-      addMovie.rating = data.movies[0].userRating;
+      addMovie.releaseDate = data.movies[0].releaseDate;
+      addMovie.userRating = data.movies[0].userRating;
       addMovie.entryId = data.movies[0].entryId;
       addMovie.posterUrl = data.movies[0].posterUrl;
       addMovie.description = data.movies[0].description;
@@ -528,7 +522,8 @@ document.addEventListener('click', function (event) {
 // ********** LISTENS FOR ALL 'WATCH LIST' LINKS TO SHOW SAVED MOVIES
 document.addEventListener('click', function (event) {
   if (event.target.matches('#watch-list-footer-link') ||
-    event.target.matches('#watch-list-nav-link')) {
+    event.target.matches('#watch-list-nav-link') ||
+    event.target.matches('#watch-list-modal-link')) {
 
     // hides mobile nav once link is clicked
 
@@ -597,6 +592,3 @@ document.addEventListener('click', function (event) {
     }
   }
 });
-
-// console.log(data);
-// console.log('fav array length', data.favorites.length);
