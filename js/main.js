@@ -10,63 +10,49 @@ var $viewSearchMovies = document.querySelector('[data-view="search-movies"]');
 var $viewSearchForm = document.querySelector('[data-view="search-form"]');
 var $upcomingMoviesView = document.querySelector('[data-view="upcoming-movies-view"]');
 var $popularMoviesView = document.querySelector('[data-view="popular-movies-view"]');
+var $watchListView = document.querySelector('[data-view="watch-list-view"]');
+var $addedMovieModal = document.querySelector('[data-view="added-movie-modal"]');
 
 var $searchFooterForm = document.querySelector('.footer-form');
 
-// LISTENS FOR SUBMIT EVENT ON MAIN SEARCH INPUT
+// FUNCTION LISTEN FOR SUBMIT EVENT OF SEARCH INPUTS
 
-$searchForm.addEventListener('submit', function (event) {
-  // RESETS DATA OBJECT
-
-  event.preventDefault();
-  $upcomingMoviesView.className = 'hidden';
-  $popularMoviesView.className = 'hidden';
-  data.resultNumber = null;
-  data.searchKeyword = '';
-  data.movies = [];
-  data.nextEntryId = 1;
-  document.querySelectorAll('[data-entry-id]').forEach(function (event) {
-    event.remove();
-  });
-
-  // BEGINS SEARCH QUERY FOR API
-
-  var searchQuery = $searchForm.elements.search.value;
-  $searchForm.reset();
-  searchApi(searchQuery);
-  $searchResultKeyword.textContent = searchQuery;
-  data.searchKeyword = searchQuery;
-  $viewSearchMovies.className = '';
-  $viewSearchForm.className = 'hidden';
-  data.view = 'search-movies';
-});
-
-// LISTENS FOR SUBMIT EVENT ON FOOTER SEARCH INPUT
-
-$searchFooterForm.addEventListener('submit', function (event) {
-  // RESETS DATA OBJECT
+document.addEventListener('submit', function (event) {
+  // resets data object
 
   event.preventDefault();
   $upcomingMoviesView.className = 'hidden';
   $popularMoviesView.className = 'hidden';
+  $watchListView.className = 'hidden';
   data.resultNumber = null;
   data.searchKeyword = '';
   data.movies = [];
-  data.nextEntryId = 1;
-  document.querySelectorAll('[data-entry-id]').forEach(function (event) {
-    event.remove();
-  });
+  var $movieRenderUl = document.getElementById('movie-render-ul');
+  $movieRenderUl.textContent = '';
 
-  // BEGINS SEARCH QUERY FOR API
+  if (event.target.matches('.search-form')) {
+    // calls search api for main input
 
-  var searchQuery = $searchFooterForm.elements.search.value;
-  $searchFooterForm.reset();
-  searchApi(searchQuery);
-  $searchResultKeyword.textContent = searchQuery;
-  data.searchKeyword = searchQuery;
-  $viewSearchMovies.className = '';
-  $viewSearchForm.className = 'hidden';
-  data.view = 'search-movies';
+    var searchQuery = $searchForm.elements.search.value;
+    $searchForm.reset();
+    searchApi(searchQuery);
+    $searchResultKeyword.textContent = searchQuery;
+    data.searchKeyword = searchQuery;
+    $viewSearchMovies.className = '';
+    $viewSearchForm.className = 'hidden';
+    data.view = 'search-movies';
+  }
+  if (event.target.matches('.footer-form')) {
+    // calls search api for footer input
+    var searchQueryFooter = $searchFooterForm.elements.search.value;
+    $searchFooterForm.reset();
+    searchApi(searchQueryFooter);
+    $searchResultKeyword.textContent = searchQueryFooter;
+    data.searchKeyword = searchQueryFooter;
+    $viewSearchMovies.className = '';
+    $viewSearchForm.className = 'hidden';
+    data.view = 'search-movies';
+  }
 });
 
 // CHANGES VIEWS TO SEARCH FORM (NAV LINK)
@@ -77,8 +63,10 @@ $searchNavLink.addEventListener('click', function (event) {
   $viewSearchMovies.className = 'hidden';
   $upcomingMoviesView.className = 'hidden';
   $popularMoviesView.className = 'hidden';
+  $watchListView.className = 'hidden';
   $viewSearchForm.className = '';
   data.view = 'search-form';
+  data.movies = [];
   // HIDES NAV ONCE NAV LINK IS CLICKED
   $navElement.classList.remove('nav-open');
   $navIcon.forEach(icon => {
@@ -104,15 +92,13 @@ function searchApi(keyword) {
       movieEntry.title = response[i].title;
       movieEntry.releaseDate = response[i].release_date;
       movieEntry.userRating = response[i].vote_average;
-      movieEntry.movieId = response[i].id;
+      movieEntry.entryId = response[i].id;
       if (response[i].poster_path === null) {
         movieEntry.posterUrl = 'images/placerholder-image.jpeg';
       } else {
         movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
       }
-      movieEntry.entryId = data.nextEntryId;
       movieEntry.description = response[i].overview;
-      data.nextEntryId++;
       data.movies.push(movieEntry);
       var renderNewMovie = renderMovies(movieEntry);
       var ulElement = document.getElementById('movie-render-ul');
@@ -125,22 +111,7 @@ function searchApi(keyword) {
 // FUNCTION RENDERS MOVIE DATA FROM API
 
 function renderMovies(movie) {
-  // < li >
-  //   <div class="row flex-row justify-content-center pad-bottom">
-  //     <div class="column-one-thirds">
-  //       <img class="movie-img-small"
-  //         src="https://image.tmdb.org/t/p/original">
-  //     </div>
-  //     <div class="column-two-thirds flex-row movie-border align-cont-center">
-  //       <div class="movie-details-wrapper">
-  //         <h1 class="movie-title">Spider-Man: No Way Home</h1>
-  //         <h2 class="movie-info">Release Date: 2021-12-15</h2>
-  //         <h2 class="movie-info">User Rating: 8.1 / 10</h2>
-  //         <button class="movie-btn">View Movie Details</button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // </li >
+
   var liItem = document.createElement('li');
   var divRow = document.createElement('div');
   divRow.className = 'row flex-row justify-content-center pad-bottom';
@@ -177,48 +148,103 @@ function renderMovies(movie) {
   movieRating.textContent = 'User Rating: ' + movie.userRating;
   divWrapper.appendChild(movieRating);
 
+  var btnWrapper = document.createElement('div');
+  btnWrapper.className = 'flex-row align-cont-center';
+  divWrapper.appendChild(btnWrapper);
   var movieBtn = document.createElement('button');
   movieBtn.textContent = 'View Movie Details';
   movieBtn.className = 'movie-btn';
-  divWrapper.appendChild(movieBtn);
-
-  // add + button here
+  btnWrapper.appendChild(movieBtn);
+  var addBtn = document.createElement('img');
+  addBtn.setAttribute('src', 'images/add-icon.svg');
+  // addBtn.setAttribute('id', 'add-movie-icon');
+  addBtn.className = 'add-icon';
+  btnWrapper.appendChild(addBtn);
 
   return liItem;
 }
 
-// EVENT OPENS MODAL AND POPULATES WITH MOVIE DATA SEARCH
-
-// var $movieDetailsUl = document.getElementById('movie-render-ul');
+// EVENT OPENS MODAL AND POPULATES MOVIE DATA FROM MOVIES ARRAY
 document.addEventListener('click', function (event) {
-  if (event.target && event.target.matches('.movie-btn')) {
-    var targetLi = event.target.closest('li');
-    var targetId = targetLi.getAttribute('data-entry-id');
-    var targetIdNumber = parseInt(targetId);
-    var movieCardModal = {};
-    for (var i = 0; i < data.movies.length; i++) {
-      if (targetIdNumber === data.movies[i].entryId) {
-        var $modalCardTitle = document.querySelector('.movie-title-card');
-        $modalCardTitle.textContent = data.movies[i].title;
-        movieCardModal.title = data.movies[i].title;
-        var $modalCardDate = document.querySelector('.movie-info-card-date');
-        $modalCardDate.textContent = data.movies[i].releaseDate;
-        movieCardModal.date = data.movies[i].releaseDate;
-        var $modalCardRating = document.querySelector('.movie-info-card-rating');
-        $modalCardRating.textContent = data.movies[i].userRating + ' / 10';
-        movieCardModal.rating = data.movies[i].userRating + ' / 10';
-        var $modalCardUrl = document.querySelector('.movie-img-card');
-        $modalCardUrl.setAttribute('src', data.movies[i].posterUrl);
-        movieCardModal.imgUrl = data.movies[i].posterUrl;
-        var $modalCardDesc = document.querySelector('.movie-info-card-desc');
-        $modalCardDesc.textContent = data.movies[i].description;
-        movieCardModal.description = data.movies[i].description;
+  if (data.view !== 'watch-list-view') {
+    if (event.target && event.target.matches('.movie-btn')) {
+      var targetLi = event.target.closest('li');
+      var targetId = targetLi.getAttribute('data-entry-id');
+      var targetIdNumber = parseInt(targetId);
+      var movieCardModal = {};
+      for (var i = 0; i < data.movies.length; i++) {
+        if (targetIdNumber === data.movies[i].entryId) {
+          var $modalCardTitle = document.querySelector('.movie-title-card');
+          $modalCardTitle.textContent = data.movies[i].title;
+          movieCardModal.title = data.movies[i].title;
+          var $modalCardDate = document.querySelector('.movie-info-card-date');
+          $modalCardDate.textContent = data.movies[i].releaseDate;
+          movieCardModal.date = data.movies[i].releaseDate;
+          var $modalCardRating = document.querySelector('.movie-info-card-rating');
+          $modalCardRating.textContent = data.movies[i].userRating + ' / 10';
+          movieCardModal.rating = data.movies[i].userRating + ' / 10';
+          var $modalCardUrl = document.querySelector('.movie-img-card');
+          $modalCardUrl.setAttribute('src', data.movies[i].posterUrl);
+          movieCardModal.imgUrl = data.movies[i].posterUrl;
+          var $modalCardDesc = document.querySelector('.movie-info-card-desc');
+          $modalCardDesc.textContent = data.movies[i].description;
+          movieCardModal.description = data.movies[i].description;
+          movieCardModal.entryId = data.movies[i].entryId;
+        }
       }
+
+      data.modal.push(movieCardModal);
+      var $modalCard = document.querySelector('[data-view="modal-card-view"]');
+      $modalCard.className = '';
     }
-    data.modal.push(movieCardModal);
-    var $modalCard = document.querySelector('[data-view="modal-card-view"]');
-    $modalCard.className = '';
   }
+
+});
+
+document.addEventListener('click', function (event) {
+  if (data.view === 'watch-list-view') {
+    if (event.target && event.target.matches('.movie-btn')) {
+
+      var targetLi = event.target.closest('li');
+      var targetId = targetLi.getAttribute('data-entry-id');
+      var targetIdNumber = parseInt(targetId);
+      var movieCardModal = {};
+      for (var i = 0; i < data.favorites.length; i++) {
+        if (targetIdNumber === data.favorites[i].entryId) {
+          var $modalCardTitleList = document.querySelector('.movie-list-title-card');
+          $modalCardTitleList.textContent = data.favorites[i].title;
+          movieCardModal.title = data.favorites[i].title;
+          var $modalCardDateList = document.querySelector('.list-movie-info-card-date');
+          $modalCardDateList.textContent = data.favorites[i].releaseDate;
+          movieCardModal.date = data.favorites[i].releaseDate;
+          var $modalCardRatingList = document.querySelector('.list-movie-info-card-rating');
+          $modalCardRatingList.textContent = data.favorites[i].userRating + ' / 10';
+          movieCardModal.rating = data.favorites[i].userRating + ' / 10';
+          var $modalCardUrlList = document.querySelector('.list-movie-img-card');
+          $modalCardUrlList.setAttribute('src', data.favorites[i].posterUrl);
+          movieCardModal.imgUrl = data.movies[i].posterUrl;
+          var $modalCardDescList = document.querySelector('.list-movie-info-card-desc');
+          $modalCardDescList.textContent = data.favorites[i].description;
+          movieCardModal.description = data.favorites[i].description;
+          movieCardModal.entryId = data.favorites[i].entryId;
+        }
+      }
+      data.modal.push(movieCardModal);
+      var $modalCard = document.querySelector('[data-view="list-modal-view"]');
+      $modalCard.className = '';
+
+    }
+  }
+
+});
+
+// EVENT CLOSES LIST MODAL WINDOW WHEN X BUTTON IS CLICKED
+
+var $closeListModalBtn = document.querySelector('.list-modal-btn');
+$closeListModalBtn.addEventListener('click', function (event) {
+  var $modalCard = document.querySelector('[data-view="list-modal-view"]');
+  $modalCard.className = 'hidden';
+  data.modal = [];
 });
 
 // EVENT CLOSES MODAL WINDOW WHEN X BUTTON IS CLICKED
@@ -230,14 +256,16 @@ $closeModalBtn.addEventListener('click', function (event) {
   data.modal = [];
 });
 
+// ENSURES CORRECT PAGE VIEW IS LOADED AFTER PAGE REFRESH
 window.addEventListener('DOMContentLoaded', function loadMovies() {
-  // ENSURES CORRECT PAGE VIEW IS LOADED AFTER PAGE REFRESH
 
   if (data.view === 'search-form') {
     $viewSearchForm.className = '';
     $viewSearchMovies.className = 'hidden';
     $upcomingMoviesView.className = 'hidden';
     $popularMoviesView.className = 'hidden';
+    $watchListView.className = 'hidden';
+
   }
   if (data.view === 'search-movies') {
     for (var i = 0; i < data.movies.length; i++) {
@@ -251,6 +279,7 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $viewSearchForm.className = 'hidden';
     $upcomingMoviesView.className = 'hidden';
     $popularMoviesView.className = 'hidden';
+    $watchListView.className = 'hidden';
 
   }
   if (data.view === 'upcoming-movies-view') {
@@ -263,6 +292,7 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $viewSearchForm.className = 'hidden';
     $viewSearchMovies.className = 'hidden';
     $popularMoviesView.className = 'hidden';
+    $watchListView.className = 'hidden';
   }
   if (data.view === 'popular-movies-view') {
     for (var j = 0; j < data.movies.length; j++) {
@@ -274,164 +304,83 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $upcomingMoviesView.className = 'hidden';
     $viewSearchForm.className = 'hidden';
     $viewSearchMovies.className = 'hidden';
+    $watchListView.className = 'hidden';
+  }
+  if (data.view === 'watch-list-view') {
+    for (var a = 0; a < data.favorites.length; a++) {
+      var ulElementWatchList = document.getElementById('watch-list-render-ul');
+      var WatchListRefresh = renderMovies(data.favorites[a]);
+      ulElementWatchList.appendChild(WatchListRefresh);
+    }
+    changePlusIcon();
+    $popularMoviesView.className = 'hidden';
+    $upcomingMoviesView.className = 'hidden';
+    $viewSearchForm.className = 'hidden';
+    $viewSearchMovies.className = 'hidden';
+    $watchListView.className = '';
   }
 });
 
-// CHANGES VIEWS TO UPCOMING MOVIES FROM (NAV LINK)
+// ********** LISTENS FOR ALL 'UPCOMING' LINKS/BUTTONS TO CALL API
+document.addEventListener('click', function (event) {
+  if (event.target.matches('#upcoming-nav-link') ||
+  event.target.matches('#upcoming-footer-link') ||
+    event.target.matches('.upcoming-movie-btn')) {
 
-var $upcomingNavLink = document.getElementById('upcoming-nav-link');
+    // hides other views not in use
 
-$upcomingNavLink.addEventListener('click', function () {
-  $viewSearchMovies.className = 'hidden';
-  $viewSearchForm.className = 'hidden';
-  $upcomingMoviesView.className = '';
-  data.view = 'upcoming-movies-view';
-  // HIDES NAV ONCE NAV LINK IS CLICKED
-  $navElement.classList.remove('nav-open');
-  $navIcon.forEach(icon => {
-    icon.classList.toggle('hidden');
-  });
-
-  // RESETS DATA MODEL OBJECT
-
-  data.resultNumber = null;
-  data.searchKeyword = '';
-  data.movies = [];
-  data.nextEntryId = 1;
-
-  // CALLS API FOR UPCOMING MOVIES
-
-  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/upcoming?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    var response = xhr.response.results;
-    for (var i = 0; i < response.length; i++) {
-      var movieEntry = {};
-      movieEntry.title = response[i].title;
-      movieEntry.releaseDate = response[i].release_date;
-      movieEntry.userRating = response[i].vote_average;
-      movieEntry.movieId = response[i].id;
-      if (response[i].poster_path === null) {
-        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
-      } else {
-        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
-      }
-      movieEntry.entryId = data.nextEntryId;
-      movieEntry.description = response[i].overview;
-      data.nextEntryId++;
-      data.movies.push(movieEntry);
-      var renderNewMovie = renderMovies(movieEntry);
-      var ulElement = document.getElementById('upcoming-movie-render-ul');
-      ulElement.appendChild(renderNewMovie);
-    }
-    data.view = 'upcoming-movies-view';
-    $upcomingMoviesView.className = '';
+    $viewSearchMovies.className = 'hidden';
+    $watchListView.className = 'hidden';
     $viewSearchForm.className = 'hidden';
-  });
-  xhr.send();
-});
-
-// CHANGES VIEWS TO UPCOMING MOVIES FROM FOOTER LINK
-
-var $upcomingFooterLink = document.getElementById('upcoming-footer-link');
-
-$upcomingFooterLink.addEventListener('click', function () {
-  $viewSearchMovies.className = 'hidden';
-  $viewSearchForm.className = 'hidden';
-  $popularMoviesView.className = 'hidden';
-  $upcomingMoviesView.className = '';
-  data.view = 'upcoming-movies-view';
-
-  // RESETS DATA MODEL OBJECT
-
-  data.resultNumber = null;
-  data.searchKeyword = '';
-  data.movies = [];
-  data.nextEntryId = 1;
-
-  // CALLS API FOR UPCOMING MOVIES
-
-  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/upcoming?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    var response = xhr.response.results;
-    for (var i = 0; i < response.length; i++) {
-      var movieEntry = {};
-      movieEntry.title = response[i].title;
-      movieEntry.releaseDate = response[i].release_date;
-      movieEntry.userRating = response[i].vote_average;
-      movieEntry.movieId = response[i].id;
-      if (response[i].poster_path === null) {
-        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
-      } else {
-        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
-      }
-      movieEntry.entryId = data.nextEntryId;
-      movieEntry.description = response[i].overview;
-      data.nextEntryId++;
-      data.movies.push(movieEntry);
-      var renderNewMovie = renderMovies(movieEntry);
-      var ulElement = document.getElementById('upcoming-movie-render-ul');
-      ulElement.appendChild(renderNewMovie);
-    }
-    data.view = 'upcoming-movies-view';
+    $popularMoviesView.className = 'hidden';
     $upcomingMoviesView.className = '';
-    $viewSearchForm.className = 'hidden';
-  });
-  xhr.send();
-});
 
-// CHANGES VIEWS TO UPCOMING MOVIES FROM SEARCH-VIEW BUTTON
+    // hides mobile nav once clicked
 
-var $upcomingMoviesBtn = document.querySelector('.upcoming-movie-btn');
-
-$upcomingMoviesBtn.addEventListener('click', function () {
-  // RESETS DATA MODEL OBJECT
-
-  data.resultNumber = null;
-  data.searchKeyword = '';
-  data.movies = [];
-  data.nextEntryId = 1;
-
-  // CALLS API FOR UPCOMING MOVIES
-
-  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/upcoming?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    var response = xhr.response.results;
-    for (var i = 0; i < response.length; i++) {
-      var movieEntry = {};
-      movieEntry.title = response[i].title;
-      movieEntry.releaseDate = response[i].release_date;
-      movieEntry.userRating = response[i].vote_average;
-      movieEntry.movieId = response[i].id;
-      if (response[i].poster_path === null) {
-        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
-      } else {
-        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
-      }
-      movieEntry.entryId = data.nextEntryId;
-      movieEntry.description = response[i].overview;
-      data.nextEntryId++;
-      data.movies.push(movieEntry);
-      var renderNewMovie = renderMovies(movieEntry);
-      var ulElement = document.getElementById('upcoming-movie-render-ul');
-      ulElement.appendChild(renderNewMovie);
+    if (event.target.matches('#upcoming-nav-link')) {
+      $navElement.classList.remove('nav-open');
+      $navIcon.forEach(icon => {
+        icon.classList.toggle('hidden');
+      });
     }
-    data.view = 'upcoming-movies-view';
-    $upcomingMoviesView.className = '';
-    $viewSearchForm.className = 'hidden';
-  });
-  xhr.send();
+
+    // resets data model object
+
+    data.resultNumber = null;
+    data.searchKeyword = '';
+    data.movies = [];
+
+    // calls for api for upcoming movies
+
+    var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/upcoming?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+    xhr.setRequestHeader('token', 'abc123');
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', function () {
+      var response = xhr.response.results;
+      for (var i = 0; i < response.length; i++) {
+        var movieEntry = {};
+        movieEntry.title = response[i].title;
+        movieEntry.releaseDate = response[i].release_date;
+        movieEntry.userRating = response[i].vote_average;
+        movieEntry.entryId = response[i].id;
+        if (response[i].poster_path === null) {
+          movieEntry.posterUrl = 'images/placerholder-image.jpeg';
+        } else {
+          movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
+        }
+        movieEntry.description = response[i].overview;
+        data.movies.push(movieEntry);
+        var renderNewMovie = renderMovies(movieEntry);
+        var ulElement = document.getElementById('upcoming-movie-render-ul');
+        ulElement.appendChild(renderNewMovie);
+      }
+      data.view = 'upcoming-movies-view';
+      $upcomingMoviesView.className = '';
+    });
+    xhr.send();
+  }
 });
 
 // RESPONSIVE NAV BAR
@@ -458,172 +407,228 @@ window.addEventListener('resize', function () {
   }
 });
 
-// CHANGES VIEWS TO POPULAR MOVIES FROM SEARCH-VIEW BUTTON
+// ********** LISTENS FOR ALL 'POPULAR' LINKS/BUTTONS TO CALL API
+document.addEventListener('click', function (event) {
+  if (event.target.matches('#popular-nav-link') ||
+    event.target.matches('#popular-footer-link') ||
+    event.target.matches('.popular-movie-btn')) {
 
-var $popularMoviesBtn = document.querySelector('.popular-movie-btn');
-
-$popularMoviesBtn.addEventListener('click', function () {
-  // RESETS DATA MODEL OBJECT
-
-  data.resultNumber = null;
-  data.searchKeyword = '';
-  data.movies = [];
-  data.nextEntryId = 1;
-
-  // CALLS API FOR POPULAR MOVIES
-
-  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/popular?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    var response = xhr.response.results;
-    for (var i = 0; i < response.length; i++) {
-      var movieEntry = {};
-      movieEntry.title = response[i].title;
-      movieEntry.releaseDate = response[i].release_date;
-      movieEntry.userRating = response[i].vote_average;
-      movieEntry.movieId = response[i].id;
-      if (response[i].poster_path === null) {
-        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
-      } else {
-        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
-      }
-      movieEntry.entryId = data.nextEntryId;
-      movieEntry.description = response[i].overview;
-      data.nextEntryId++;
-      data.movies.push(movieEntry);
-      var renderNewMovie = renderMovies(movieEntry);
-      var ulElement = document.getElementById('popular-movie-render-ul');
-      ulElement.appendChild(renderNewMovie);
+    // hides mobile nav once link is clicked
+    if (event.target.matches('#popular-nav-link')) {
+      $navElement.classList.remove('nav-open');
+      $navIcon.forEach(icon => {
+        icon.classList.toggle('hidden');
+      });
     }
-    data.view = 'popular-movies-view';
-    $popularMoviesView.className = '';
+
+    // hides other views not in use
+
+    $viewSearchMovies.className = 'hidden';
+    $watchListView.className = 'hidden';
     $viewSearchForm.className = 'hidden';
-  });
-  xhr.send();
+    $upcomingMoviesView.className = 'hidden';
+    $popularMoviesView.className = '';
+
+    // resets data model object
+
+    data.resultNumber = null;
+    data.searchKeyword = '';
+    data.movies = [];
+
+    // calls for api for popular movies
+
+    var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/popular?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+    xhr.setRequestHeader('token', 'abc123');
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', function () {
+      var response = xhr.response.results;
+      for (var i = 0; i < response.length; i++) {
+        var movieEntry = {};
+        movieEntry.title = response[i].title;
+        movieEntry.releaseDate = response[i].release_date;
+        movieEntry.userRating = response[i].vote_average;
+        movieEntry.entryId = response[i].id;
+        if (response[i].poster_path === null) {
+          movieEntry.posterUrl = 'images/placerholder-image.jpeg';
+        } else {
+          movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
+        }
+        movieEntry.description = response[i].overview;
+        data.movies.push(movieEntry);
+        var renderNewMovie = renderMovies(movieEntry);
+        var ulElement = document.getElementById('popular-movie-render-ul');
+        ulElement.appendChild(renderNewMovie);
+      }
+      data.view = 'popular-movies-view';
+      $popularMoviesView.className = '';
+    });
+    xhr.send();
+  }
+});
+function hideAddedMovieModal() {
+  $addedMovieModal.className = 'hidden';
+}
+// EVENT ADDS MOVIE TO FAV ARRAY ONCE + BUTTON IS CLICKED
+
+document.addEventListener('click', function (event) {
+
+  if (event.target && event.target.matches('.add-icon')) {
+    var targetLi = event.target.closest('li');
+    var targetId = targetLi.getAttribute('data-entry-id');
+    var targetIdNumber = parseInt(targetId);
+    var addMovie = {};
+    for (var i = 0; i < data.movies.length; i++) {
+      if (targetIdNumber === data.movies[i].entryId) {
+        addMovie.title = data.movies[i].title;
+        addMovie.releaseDate = data.movies[i].releaseDate;
+        addMovie.userRating = data.movies[i].userRating;
+        addMovie.entryId = data.movies[i].entryId;
+        addMovie.posterUrl = data.movies[i].posterUrl;
+        addMovie.description = data.movies[i].description;
+      }
+    }
+    data.favorites.unshift(addMovie);
+    $addedMovieModal.className = '';
+    setTimeout(hideAddedMovieModal, 10000);
+  }
 });
 
-// CHANGES VIEWS TO POPULAR MOVIES FROM NAV LINK
-
-var $popularNavLink = document.getElementById('popular-nav-link');
-
-$popularNavLink.addEventListener('click', function () {
-  $viewSearchMovies.className = 'hidden';
-  $viewSearchForm.className = 'hidden';
-  $upcomingMoviesView.className = 'hidden';
-  $popularMoviesView.className = '';
-  // HIDES NAV ONCE NAV LINK IS CLICKED
-  $navElement.classList.remove('nav-open');
-  $navIcon.forEach(icon => {
-    icon.classList.toggle('hidden');
-  });
-  // RESETS DATA MODEL OBJECT
-
-  data.resultNumber = null;
-  data.searchKeyword = '';
-  data.movies = [];
-  data.nextEntryId = 1;
-
-  // CALLS API FOR UPCOMING MOVIES
-
-  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/popular?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    var response = xhr.response.results;
-    for (var i = 0; i < response.length; i++) {
-      var movieEntry = {};
-      movieEntry.title = response[i].title;
-      movieEntry.releaseDate = response[i].release_date;
-      movieEntry.userRating = response[i].vote_average;
-      movieEntry.movieId = response[i].id;
-      if (response[i].poster_path === null) {
-        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
-      } else {
-        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
-      }
-      movieEntry.entryId = data.nextEntryId;
-      movieEntry.description = response[i].overview;
-      data.nextEntryId++;
-      data.movies.push(movieEntry);
-      var renderNewMovie = renderMovies(movieEntry);
-      var ulElement = document.getElementById('popular-movie-render-ul');
-      ulElement.appendChild(renderNewMovie);
-    }
-    data.view = 'popular-movies-view';
-    $popularMoviesView.className = '';
-    $viewSearchForm.className = 'hidden';
-  });
-  xhr.send();
+// FUNCTION CLOSES 'MOVIE ADDED MODAL' ONCE VIEW LIST LINK ON MODAL IS CLICKED
+$addedMovieModal.addEventListener('click', function (event) {
+  if (event.target.matches('#watch-list-modal-link')) {
+    hideAddedMovieModal();
+  }
 });
 
-// CHANGES VIEWS TO POPULAR MOVIES FROM FOOTER LINK
+// ADD BUTTON FOR MODAL (movie details view)
 
-var $popularFooterLink = document.getElementById('popular-footer-link');
-
-$popularFooterLink.addEventListener('click', function () {
-  $viewSearchMovies.className = 'hidden';
-  $viewSearchForm.className = 'hidden';
-  $upcomingMoviesView.className = 'hidden';
-  $popularMoviesView.className = '';
-  data.view = 'popular-movies-view';
-
-  // RESETS DATA MODEL OBJECT
-
-  data.resultNumber = null;
-  data.searchKeyword = '';
-  data.movies = [];
-  data.nextEntryId = 1;
-
-  // CALLS API FOR UPCOMING MOVIES
-
-  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/popular?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    var response = xhr.response.results;
-    for (var i = 0; i < response.length; i++) {
-      var movieEntry = {};
-      movieEntry.title = response[i].title;
-      movieEntry.releaseDate = response[i].release_date;
-      movieEntry.userRating = response[i].vote_average;
-      movieEntry.movieId = response[i].id;
-      if (response[i].poster_path === null) {
-        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
-      } else {
-        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
+document.addEventListener('click', function (event) {
+  if (event.target && event.target.matches('.add-modal-icon')) {
+    var modalId = data.modal[0].entryId;
+    var addMovie = {};
+    for (var i = 0; i < data.movies.length; i++) {
+      if (modalId === data.movies[i].entryId) {
+        addMovie.title = data.movies[i].title;
+        addMovie.releaseDate = data.movies[i].releaseDate;
+        addMovie.userRating = data.movies[i].userRating;
+        addMovie.entryId = data.movies[i].entryId;
+        addMovie.posterUrl = data.movies[i].posterUrl;
+        addMovie.description = data.movies[i].description;
       }
-      movieEntry.entryId = data.nextEntryId;
-      movieEntry.description = response[i].overview;
-      data.nextEntryId++;
-      data.movies.push(movieEntry);
-      var renderNewMovie = renderMovies(movieEntry);
-      var ulElement = document.getElementById('popular-movie-render-ul');
-      ulElement.appendChild(renderNewMovie);
     }
-    $popularMoviesView.className = '';
-    $viewSearchForm.className = 'hidden';
-  });
-  xhr.send();
+    data.favorites.unshift(addMovie);
+    $addedMovieModal.className = '';
+    setTimeout(hideAddedMovieModal, 10000);
+    var $modalCard = document.querySelector('[data-view="modal-card-view"]');
+    $modalCard.className = 'hidden';
+    data.modal = [];
+  }
 });
 
-// now playing api
+// ********** LISTENS FOR ALL 'WATCH LIST' LINKS TO SHOW SAVED MOVIES
+document.addEventListener('click', function (event) {
+  if (event.target.matches('#watch-list-footer-link') ||
+    event.target.matches('#watch-list-nav-link') ||
+    event.target.matches('#watch-list-modal-link')) {
 
-// document.addEventListener('click', function () {
-//   var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/now_playing?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-//   xhr.setRequestHeader('token', 'abc123');
-//   xhr.responseType = 'json';
-//   xhr.addEventListener('load', function () {
-//     var response = xhr.response.results;
-//     console.log(response);
-//   });
-//   xhr.send();
-// });
+    var $watchListUl = document.getElementById('watch-list-render-ul');
+    $watchListUl.textContent = '';
+
+    // hides mobile nav once link is clicked
+
+    if (event.target.matches('#watch-list-nav-link')) {
+      $navElement.classList.remove('nav-open');
+      $navIcon.forEach(icon => {
+        icon.classList.toggle('hidden');
+      });
+    }
+
+    // hides other views not in use
+
+    $viewSearchMovies.className = 'hidden';
+    $viewSearchForm.className = 'hidden';
+    $upcomingMoviesView.className = 'hidden';
+    $popularMoviesView.className = 'hidden';
+    $watchListView.className = 'hidden';
+
+    for (var x = 0; x < data.favorites.length; x++) {
+      var ulElementWatchList = document.getElementById('watch-list-render-ul');
+      var WatchListRefresh = renderMovies(data.favorites[x]);
+      ulElementWatchList.appendChild(WatchListRefresh);
+    }
+    data.view = 'watch-list-view';
+    $watchListView.className = '';
+    $viewSearchForm.className = 'hidden';
+    $viewSearchMovies.className = 'hidden';
+    $upcomingMoviesView.className = 'hidden';
+    $popularMoviesView.className = 'hidden';
+    changePlusIcon();
+
+  }
+});
+
+// FUNCTION DELETES MOVIE FROM FAV ARRAY ONCE - BUTTON IS CLICKED
+
+document.addEventListener('click', function (event) {
+  if (event.target && event.target.matches('.subtract-icon')) {
+    var targetLi = event.target.closest('li');
+    var targetId = targetLi.getAttribute('data-entry-id');
+    var targetIdNumber = parseInt(targetId);
+
+    var $watchListUl = document.getElementById('watch-list-render-ul');
+    $watchListUl.textContent = '';
+    for (var i = 0; i < data.favorites.length; i++) {
+      if (targetIdNumber === data.favorites[i].entryId) {
+        data.favorites.splice(i, 1);
+
+        // renders update list
+        for (var a = 0; a < data.favorites.length; a++) {
+          var ulElementWatchList = document.getElementById('watch-list-render-ul');
+          var WatchListRefresh = renderMovies(data.favorites[a]);
+          ulElementWatchList.appendChild(WatchListRefresh);
+        }
+      }
+      changePlusIcon();
+    }
+  }
+});
+
+// DELETE BUTTON FOR LIST MODAL (movie details view)
+
+document.addEventListener('click', function (event) {
+  if (event.target && event.target.matches('.subtract-modal-icon')) {
+
+    var modalId = data.modal[0].entryId;
+
+    var $watchListUl = document.getElementById('watch-list-render-ul');
+    $watchListUl.textContent = '';
+
+    for (var i = 0; i < data.favorites.length; i++) {
+      if (modalId === data.favorites[i].entryId) {
+        data.favorites.splice(i, 1);
+
+        // renders update list
+        for (var a = 0; a < data.favorites.length; a++) {
+          var ulElementWatchList = document.getElementById('watch-list-render-ul');
+          var WatchListRefresh = renderMovies(data.favorites[a]);
+          ulElementWatchList.appendChild(WatchListRefresh);
+        }
+      }
+      var $modalCard = document.querySelector('[data-view="list-modal-view"]');
+      $modalCard.className = 'hidden';
+      data.modal = [];
+      changePlusIcon();
+    }
+  }
+});
+
+// CHANGES + ICONS TO -
+function changePlusIcon() {
+  var addIcons = document.querySelectorAll('.add-icon');
+  addIcons.forEach(function (element) {
+    element.setAttribute('src', 'images/subtract-icon.svg');
+    element.setAttribute('class', 'subtract-icon');
+  });
+}

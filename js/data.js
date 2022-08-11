@@ -4,7 +4,6 @@ var data = {
   movies: [],
   favorites: [],
   modal: [],
-  nextEntryId: 1,
   resultNumber: null,
   searchKeyword: ''
 };
