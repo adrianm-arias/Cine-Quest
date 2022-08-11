@@ -102,15 +102,54 @@
                     <h2 class="movie-info-card-date pad-bottom"></h2>
                     <h2 class="movie-info-card">User Rating:</h2>
                     <h2 class="movie-info-card-rating pad-bottom"></h2>
-                    <div id="add-icon-modal" class="flex-row align-cont-center">
-                      <img src="images/add-icon.svg" class="add-modal-icon">
-                      <h2 class="movie-info-card">Add to Watch List</h2>
+                    <div id="add-icon-modal" class="flex-row align-cont-center" data-entry-id="1">
+                      <img id="add-modal-icon-img" src="images/add-icon.svg" class="add-modal-icon">
+                      <h2 class="movie-info-card-list-title">Add to Watch List</h2>
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="column-full">
                     <p class="movie-info-card-desc">Movie Description</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hidden" data-view="list-modal-view">
+        <div class="row pos-relative">
+          <div
+            class="column-full flex-row justify-content-center align-cont-center transparent-bg window-full-height pos-fixed">
+            <div class="modal-container pos-relative">
+              <div class="close-modal">
+                <button class="list-modal-btn">X</button>
+              </div>
+              <div class="row flex-column justify-content-center pad-bottom">
+                <div class="row">
+                  <div class="column-full">
+                    <h1 class="movie-list-title-card">Movie Title</h1>
+                  </div>
+                </div>
+                <div class="row flex-row pad-bottom">
+                  <div class="column-half">
+                    <img class="list-movie-img-card" src="/images/placerholder-image.jpeg">
+                  </div>
+                  <div class="column-half movie-card-wrapper">
+                    <h2 class="movie-info-card">Release Date:</h2>
+                    <h2 class="list-movie-info-card-date pad-bottom"></h2>
+                    <h2 class="movie-info-card">User Rating:</h2>
+                    <h2 class="list-movie-info-card-rating pad-bottom"></h2>
+                    <div id="watch-list-modal" class="flex-row align-cont-center" data-entry-id="1">
+                      <img id="watch-list-modal-icon" src="images/subtract-icon.svg" class="subtract-modal-icon">
+                      <h2 class="movie-info-card-list-title">Remove from Watch List</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="column-full">
+                    <p class="list-movie-info-card-desc">Movie Description</p>
                   </div>
                 </div>
               </div>
@@ -143,13 +182,12 @@
           </div>
         </div>
         <ul id="watch-list-render-ul">
-
         </ul>
       </div>
     </div>
   </main>
-  <footer>
-    <div class="footer-bg footer flex-row align-cont-center container pad-left-right">
+  <footer class="footer footer-bg">
+    <div class="flex-row align-cont-center container pad-left-right">
       <div class="row flex-row flex-wrap-footer">
         <div class="column-half flex-row space-between align-cont-center pad-left-right">
           <p class="logo-footer">movie finder</p>
