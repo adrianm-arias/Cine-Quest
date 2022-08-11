@@ -27,9 +27,8 @@ document.addEventListener('submit', function (event) {
   data.resultNumber = null;
   data.searchKeyword = '';
   data.movies = [];
-  document.querySelectorAll('[data-entry-id]').forEach(function (event) {
-    event.remove();
-  });
+  var $movieRenderUl = document.getElementById('movie-render-ul');
+  $movieRenderUl.textContent = '';
 
   if (event.target.matches('.search-form')) {
     // calls search api for main input
@@ -67,6 +66,7 @@ $searchNavLink.addEventListener('click', function (event) {
   $watchListView.className = 'hidden';
   $viewSearchForm.className = '';
   data.view = 'search-form';
+  data.movies = [];
   // HIDES NAV ONCE NAV LINK IS CLICKED
   $navElement.classList.remove('nav-open');
   $navIcon.forEach(icon => {
@@ -98,9 +98,7 @@ function searchApi(keyword) {
       } else {
         movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
       }
-      // movieEntry.entryId = data.nextEntryId;
       movieEntry.description = response[i].overview;
-      // data.nextEntryId++;
       data.movies.push(movieEntry);
       var renderNewMovie = renderMovies(movieEntry);
       var ulElement = document.getElementById('movie-render-ul');
@@ -339,10 +337,12 @@ document.addEventListener('click', function (event) {
 
     // hides mobile nav once clicked
 
-    $navElement.classList.remove('nav-open');
-    $navIcon.forEach(icon => {
-      icon.classList.toggle('hidden');
-    });
+    if (event.target.matches('#upcoming-nav-link')) {
+      $navElement.classList.remove('nav-open');
+      $navIcon.forEach(icon => {
+        icon.classList.toggle('hidden');
+      });
+    }
 
     // resets data model object
 
@@ -414,11 +414,12 @@ document.addEventListener('click', function (event) {
     event.target.matches('.popular-movie-btn')) {
 
     // hides mobile nav once link is clicked
-
-    $navElement.classList.remove('nav-open');
-    $navIcon.forEach(icon => {
-      icon.classList.toggle('hidden');
-    });
+    if (event.target.matches('#popular-nav-link')) {
+      $navElement.classList.remove('nav-open');
+      $navIcon.forEach(icon => {
+        icon.classList.toggle('hidden');
+      });
+    }
 
     // hides other views not in use
 
@@ -532,12 +533,17 @@ document.addEventListener('click', function (event) {
     event.target.matches('#watch-list-nav-link') ||
     event.target.matches('#watch-list-modal-link')) {
 
+    var $watchListUl = document.getElementById('watch-list-render-ul');
+    $watchListUl.textContent = '';
+
     // hides mobile nav once link is clicked
 
-    $navElement.classList.remove('nav-open');
-    $navIcon.forEach(icon => {
-      icon.classList.toggle('hidden');
-    });
+    if (event.target.matches('#watch-list-nav-link')) {
+      $navElement.classList.remove('nav-open');
+      $navIcon.forEach(icon => {
+        icon.classList.toggle('hidden');
+      });
+    }
 
     // hides other views not in use
 
@@ -547,9 +553,6 @@ document.addEventListener('click', function (event) {
     $popularMoviesView.className = 'hidden';
     $watchListView.className = 'hidden';
 
-    document.querySelectorAll('[data-entry-id]').forEach(function (event) {
-      event.remove();
-    });
     for (var x = 0; x < data.favorites.length; x++) {
       var ulElementWatchList = document.getElementById('watch-list-render-ul');
       var WatchListRefresh = renderMovies(data.favorites[x]);
@@ -573,20 +576,19 @@ document.addEventListener('click', function (event) {
     var targetLi = event.target.closest('li');
     var targetId = targetLi.getAttribute('data-entry-id');
     var targetIdNumber = parseInt(targetId);
+
+    var $watchListUl = document.getElementById('watch-list-render-ul');
+    $watchListUl.textContent = '';
     for (var i = 0; i < data.favorites.length; i++) {
       if (targetIdNumber === data.favorites[i].entryId) {
-        targetLi.remove();
         data.favorites.splice(i, 1);
-        // document.querySelectorAll('[data-entry-id]').forEach(function (event) {
-        //   console.log(event);
-        //   event.remove();
-        // });
-        // RENDERS UPDATED LIST
-        // for (var a = 0; a < data.favorites.length; a++) {
-        //   var ulElementWatchList = document.getElementById('watch-list-render-ul');
-        //   var WatchListRefresh = renderMovies(data.favorites[a]);
-        //   ulElementWatchList.appendChild(WatchListRefresh);
-        // }
+
+        // renders update list
+        for (var a = 0; a < data.favorites.length; a++) {
+          var ulElementWatchList = document.getElementById('watch-list-render-ul');
+          var WatchListRefresh = renderMovies(data.favorites[a]);
+          ulElementWatchList.appendChild(WatchListRefresh);
+        }
       }
       changePlusIcon();
     }
@@ -597,14 +599,17 @@ document.addEventListener('click', function (event) {
 
 document.addEventListener('click', function (event) {
   if (event.target && event.target.matches('.subtract-modal-icon')) {
+
     var modalId = data.modal[0].entryId;
+
+    var $watchListUl = document.getElementById('watch-list-render-ul');
+    $watchListUl.textContent = '';
+
     for (var i = 0; i < data.favorites.length; i++) {
       if (modalId === data.favorites[i].entryId) {
         data.favorites.splice(i, 1);
-        document.querySelectorAll('[data-entry-id]').forEach(function (event) {
-          event.remove();
-        });
-        // RENDERS UPDATED LIST
+
+        // renders update list
         for (var a = 0; a < data.favorites.length; a++) {
           var ulElementWatchList = document.getElementById('watch-list-render-ul');
           var WatchListRefresh = renderMovies(data.favorites[a]);
@@ -627,6 +632,3 @@ function changePlusIcon() {
     element.setAttribute('class', 'subtract-icon');
   });
 }
-
-// Last bug to fix: after deleting item from watchlist in modal view,
-// the remove icon and text dissapears once the next item is clicked on 'view movie details'
