@@ -77,7 +77,7 @@ header {
 .overlay {
   background: rgba(15, 75, 87, 0.75);
   width: 100%;
-  height: 50vh;
+  height: 40vh;
 }
 
 .cover-image {
@@ -437,6 +437,55 @@ input:focus {
   text-decoration: underline;
 }
 
+/* now playing section */
+
+.now-playing-img {
+  height: 200px;
+}
+
+.now-playing-title {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+}
+
+.now-playing-link {
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #26a7ba;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.now-playing-ul {
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.arrow {
+  cursor: pointer;
+  height: 50px;
+}
+
+.pos-left {
+  position: absolute;
+  left: 0;
+  bottom: 7rem;
+}
+
+.pos-right {
+  position: absolute;
+  right: 0;
+  bottom: 7rem;
+}
+
 @media (max-width: 768px) {
   .column-half {
     width: 100%;
@@ -496,5 +545,9 @@ input:focus {
   .upcoming-movie-btn,
   .popular-movie-btn {
     width: 100%;
+  }
+
+  .footer-margin-bottom {
+    margin-bottom: 150px;
   }
 }

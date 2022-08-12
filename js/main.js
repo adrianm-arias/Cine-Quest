@@ -192,13 +192,40 @@ document.addEventListener('click', function (event) {
           movieCardModal.entryId = data.movies[i].entryId;
         }
       }
-
       data.modal.push(movieCardModal);
       var $modalCard = document.querySelector('[data-view="modal-card-view"]');
       $modalCard.className = '';
     }
+    if (event.target.matches('.now-playing-link')) {
+      var targetLiNowPlaying = event.target.closest('li');
+      var targetIdNowPlaying = targetLiNowPlaying.getAttribute('data-entry-id');
+      var targetIdNumberNowPlaying = parseInt(targetIdNowPlaying);
+      var movieCardModalNowPlaying = {};
+      for (var y = 0; y < data.playing.length; y++) {
+        if (targetIdNumberNowPlaying === data.playing[y].entryId) {
+          var $modalCardTitleNowPlaying = document.querySelector('.movie-title-card');
+          $modalCardTitleNowPlaying.textContent = data.playing[y].title;
+          movieCardModalNowPlaying.title = data.playing[y].title;
+          var $modalCardDateNowPlaying = document.querySelector('.movie-info-card-date');
+          $modalCardDateNowPlaying.textContent = data.playing[y].releaseDate;
+          movieCardModalNowPlaying.date = data.playing[y].releaseDate;
+          var $modalCardRatingNowPlaying = document.querySelector('.movie-info-card-rating');
+          $modalCardRatingNowPlaying.textContent = data.playing[y].userRating + ' / 10';
+          movieCardModalNowPlaying.rating = data.playing[y].userRating + ' / 10';
+          var $modalCardUrlNowPlaying = document.querySelector('.movie-img-card');
+          $modalCardUrlNowPlaying.setAttribute('src', data.playing[y].posterUrl);
+          movieCardModalNowPlaying.imgUrl = data.playing[y].posterUrl;
+          var $modalCardDescNowPlaying = document.querySelector('.movie-info-card-desc');
+          $modalCardDescNowPlaying.textContent = data.playing[y].description;
+          movieCardModalNowPlaying.description = data.playing[y].description;
+          movieCardModalNowPlaying.entryId = data.playing[y].entryId;
+        }
+      }
+      data.modal.push(movieCardModalNowPlaying);
+      var $modalCardNowPlaying = document.querySelector('[data-view="modal-card-view"]');
+      $modalCardNowPlaying.className = '';
+    }
   }
-
 });
 
 document.addEventListener('click', function (event) {
@@ -321,7 +348,7 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
   }
 });
 
-// ********** LISTENS FOR ALL 'UPCOMING' LINKS/BUTTONS TO CALL API
+// LISTENS FOR ALL 'UPCOMING' LINKS/BUTTONS TO CALL API
 document.addEventListener('click', function (event) {
   if (event.target.matches('#upcoming-nav-link') ||
   event.target.matches('#upcoming-footer-link') ||
@@ -407,7 +434,7 @@ window.addEventListener('resize', function () {
   }
 });
 
-// ********** LISTENS FOR ALL 'POPULAR' LINKS/BUTTONS TO CALL API
+// LISTENS FOR ALL 'POPULAR' LINKS/BUTTONS TO CALL API
 document.addEventListener('click', function (event) {
   if (event.target.matches('#popular-nav-link') ||
     event.target.matches('#popular-footer-link') ||
@@ -527,7 +554,7 @@ document.addEventListener('click', function (event) {
   }
 });
 
-// ********** LISTENS FOR ALL 'WATCH LIST' LINKS TO SHOW SAVED MOVIES
+// LISTENS FOR ALL 'WATCH LIST' LINKS TO SHOW SAVED MOVIES
 document.addEventListener('click', function (event) {
   if (event.target.matches('#watch-list-footer-link') ||
     event.target.matches('#watch-list-nav-link') ||
@@ -632,3 +659,78 @@ function changePlusIcon() {
     element.setAttribute('class', 'subtract-icon');
   });
 }
+
+// FUNCTION CALLS 'NOW PLAYING' API
+function nowPlayingApi() {
+  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/now_playing?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+  xhr.setRequestHeader('token', 'abc123');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var response = xhr.response.results;
+    for (var i = 0; i < response.length; i++) {
+      var movieEntry = {};
+      movieEntry.title = response[i].title;
+      movieEntry.releaseDate = response[i].release_date;
+      movieEntry.userRating = response[i].vote_average;
+      movieEntry.entryId = response[i].id;
+      if (response[i].poster_path === null) {
+        movieEntry.posterUrl = 'images/placerholder-image.jpeg';
+      } else {
+        movieEntry.posterUrl = 'https://image.tmdb.org/t/p/original' + response[i].poster_path;
+      }
+      movieEntry.description = response[i].overview;
+      data.playing.push(movieEntry);
+      var renderNewMovie = renderNowPlaying(movieEntry);
+      var ulElement = document.getElementById('now-playing-render-ul');
+      ulElement.appendChild(renderNewMovie);
+    }
+  });
+  xhr.send();
+}
+
+// FUNCTION RENDERS NOW PLAYING SECTION
+
+function renderNowPlaying(movie) {
+
+  var liItem = document.createElement('li');
+  var divCol = document.createElement('div');
+  divCol.className = 'column-full pad-left-right';
+  liItem.appendChild(divCol);
+  liItem.setAttribute('data-entry-id', movie.entryId);
+
+  var movieImg = document.createElement('img');
+  movieImg.className = 'now-playing-img';
+  movieImg.setAttribute('src', movie.posterUrl);
+  divCol.appendChild(movieImg);
+
+  var movieTitle = document.createElement('h3');
+  movieTitle.textContent = movie.title;
+  movieTitle.className = 'now-playing-title';
+  divCol.appendChild(movieTitle);
+
+  var nowPlayingLink = document.createElement('a');
+  nowPlayingLink.className = 'now-playing-link';
+  nowPlayingLink.textContent = 'View Details >';
+  divCol.appendChild(nowPlayingLink);
+
+  return liItem;
+}
+
+nowPlayingApi();
+var $rightArrow = document.getElementById('right-arrow');
+
+// CONTROLS SCROLL FOR NOW PLAYING
+
+$rightArrow.addEventListener('click', function (event) {
+  var nowPlayingUl = document.getElementById('now-playing-render-ul');
+  nowPlayingUl.scrollLeft += 225;
+});
+
+var $leftArrow = document.getElementById('left-arrow');
+
+$leftArrow.addEventListener('click', function (event) {
+  var nowPlayingUl = document.getElementById('now-playing-render-ul');
+  nowPlayingUl.scrollLeft -= 225;
+});
