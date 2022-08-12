@@ -157,7 +157,6 @@ function renderMovies(movie) {
   btnWrapper.appendChild(movieBtn);
   var addBtn = document.createElement('img');
   addBtn.setAttribute('src', 'images/add-icon.svg');
-  // addBtn.setAttribute('id', 'add-movie-icon');
   addBtn.className = 'add-icon';
   btnWrapper.appendChild(addBtn);
 
@@ -228,6 +227,7 @@ document.addEventListener('click', function (event) {
   }
 });
 
+// EVENT OPENS MODAL AND POPULATES MOVIE DATA FROM FAVORITES ARRAY
 document.addEventListener('click', function (event) {
   if (data.view === 'watch-list-view') {
     if (event.target && event.target.matches('.movie-btn')) {
@@ -249,7 +249,7 @@ document.addEventListener('click', function (event) {
           movieCardModal.rating = data.favorites[i].userRating + ' / 10';
           var $modalCardUrlList = document.querySelector('.list-movie-img-card');
           $modalCardUrlList.setAttribute('src', data.favorites[i].posterUrl);
-          movieCardModal.imgUrl = data.movies[i].posterUrl;
+          movieCardModal.imgUrl = data.favorites[i].posterUrl;
           var $modalCardDescList = document.querySelector('.list-movie-info-card-desc');
           $modalCardDescList.textContent = data.favorites[i].description;
           movieCardModal.description = data.favorites[i].description;
@@ -259,7 +259,6 @@ document.addEventListener('click', function (event) {
       data.modal.push(movieCardModal);
       var $modalCard = document.querySelector('[data-view="list-modal-view"]');
       $modalCard.className = '';
-
     }
   }
 
@@ -292,7 +291,6 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $upcomingMoviesView.className = 'hidden';
     $popularMoviesView.className = 'hidden';
     $watchListView.className = 'hidden';
-
   }
   if (data.view === 'search-movies') {
     for (var i = 0; i < data.movies.length; i++) {
@@ -307,7 +305,6 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $upcomingMoviesView.className = 'hidden';
     $popularMoviesView.className = 'hidden';
     $watchListView.className = 'hidden';
-
   }
   if (data.view === 'upcoming-movies-view') {
     for (var y = 0; y < data.movies.length; y++) {
@@ -529,20 +526,32 @@ $addedMovieModal.addEventListener('click', function (event) {
   }
 });
 
-// ADD BUTTON FOR MODAL (movie details view)
-
+// FUNCTION ADDS MOVIE DETAILS FROM MODAL VIEW TO FAV ARRAY
 document.addEventListener('click', function (event) {
   if (event.target && event.target.matches('.add-modal-icon')) {
     var modalId = data.modal[0].entryId;
     var addMovie = {};
-    for (var i = 0; i < data.movies.length; i++) {
-      if (modalId === data.movies[i].entryId) {
-        addMovie.title = data.movies[i].title;
-        addMovie.releaseDate = data.movies[i].releaseDate;
-        addMovie.userRating = data.movies[i].userRating;
-        addMovie.entryId = data.movies[i].entryId;
-        addMovie.posterUrl = data.movies[i].posterUrl;
-        addMovie.description = data.movies[i].description;
+    if (data.movies.length === 0) {
+      for (var i = 0; i < data.playing.length; i++) {
+        if (modalId === data.playing[i].entryId) {
+          addMovie.title = data.playing[i].title;
+          addMovie.releaseDate = data.playing[i].releaseDate;
+          addMovie.userRating = data.playing[i].userRating;
+          addMovie.entryId = data.playing[i].entryId;
+          addMovie.posterUrl = data.playing[i].posterUrl;
+          addMovie.description = data.playing[i].description;
+        }
+      }
+    } else {
+      for (var y = 0; y < data.movies.length; y++) {
+        if (modalId === data.movies[y].entryId) {
+          addMovie.title = data.movies[y].title;
+          addMovie.releaseDate = data.movies[y].releaseDate;
+          addMovie.userRating = data.movies[y].userRating;
+          addMovie.entryId = data.movies[y].entryId;
+          addMovie.posterUrl = data.movies[y].posterUrl;
+          addMovie.description = data.movies[y].description;
+        }
       }
     }
     data.favorites.unshift(addMovie);
@@ -554,7 +563,7 @@ document.addEventListener('click', function (event) {
   }
 });
 
-// LISTENS FOR ALL 'WATCH LIST' LINKS TO SHOW SAVED MOVIES
+// LISTENS FOR ALL 'WATCH LIST' LINKS TO SAVED MOVIES
 document.addEventListener('click', function (event) {
   if (event.target.matches('#watch-list-footer-link') ||
     event.target.matches('#watch-list-nav-link') ||
@@ -562,7 +571,7 @@ document.addEventListener('click', function (event) {
 
     var $watchListUl = document.getElementById('watch-list-render-ul');
     $watchListUl.textContent = '';
-
+    data.movies = [];
     // hides mobile nav once link is clicked
 
     if (event.target.matches('#watch-list-nav-link')) {

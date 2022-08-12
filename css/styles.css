@@ -195,7 +195,7 @@ input:focus {
 }
 
 .footer-form {
-  padding: 0 0.3rem;
+  padding: 0;
 }
 
 .search-btn-footer:hover {
@@ -476,14 +476,14 @@ input:focus {
 
 .pos-left {
   position: absolute;
-  left: 0;
-  bottom: 7rem;
+  left: -1.5rem;
+  bottom: 50%;
 }
 
 .pos-right {
   position: absolute;
-  right: 0;
-  bottom: 7rem;
+  right: -1rem;
+  bottom: 50%;
 }
 
 @media (max-width: 768px) {
@@ -549,5 +549,9 @@ input:focus {
 
   .footer-margin-bottom {
     margin-bottom: 150px;
+  }
+
+  .footer-form {
+    padding: 0 0.3rem;
   }
 }
