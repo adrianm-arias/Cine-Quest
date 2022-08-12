@@ -81,7 +81,7 @@ header {
 }
 
 .cover-image {
-  background-image: url("/images/empty-theatre.jpg");
+  background-image: url("images/empty-theatre.jpg");
   background-size: cover;
   background-position: center;
 }
