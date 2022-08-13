@@ -12,6 +12,8 @@ var $upcomingMoviesView = document.querySelector('[data-view="upcoming-movies-vi
 var $popularMoviesView = document.querySelector('[data-view="popular-movies-view"]');
 var $watchListView = document.querySelector('[data-view="watch-list-view"]');
 var $addedMovieModal = document.querySelector('[data-view="added-movie-modal"]');
+var $modalCardWatchList = document.querySelector('[data-view="list-modal-view"]');
+var $confirmDeleteModal = document.querySelector('[data-view="confirm-delete-modal"]');
 
 var $searchFooterForm = document.querySelector('.footer-form');
 
@@ -236,6 +238,7 @@ document.addEventListener('click', function (event) {
       var targetId = targetLi.getAttribute('data-entry-id');
       var targetIdNumber = parseInt(targetId);
       var movieCardModal = {};
+      data.deleteId = targetIdNumber;
       for (var i = 0; i < data.favorites.length; i++) {
         if (targetIdNumber === data.favorites[i].entryId) {
           var $modalCardTitleList = document.querySelector('.movie-list-title-card');
@@ -271,6 +274,7 @@ $closeListModalBtn.addEventListener('click', function (event) {
   var $modalCard = document.querySelector('[data-view="list-modal-view"]');
   $modalCard.className = 'hidden';
   data.modal = [];
+  data.deleteId = null;
 });
 
 // EVENT CLOSES MODAL WINDOW WHEN X BUTTON IS CLICKED
@@ -280,6 +284,7 @@ $closeModalBtn.addEventListener('click', function (event) {
   var $modalCard = document.querySelector('[data-view="modal-card-view"]');
   $modalCard.className = 'hidden';
   data.modal = [];
+  data.deleteId = null;
 });
 
 // ENSURES CORRECT PAGE VIEW IS LOADED AFTER PAGE REFRESH
@@ -607,58 +612,58 @@ document.addEventListener('click', function (event) {
 
 // FUNCTION DELETES MOVIE FROM FAV ARRAY ONCE - BUTTON IS CLICKED
 
-document.addEventListener('click', function (event) {
-  if (event.target && event.target.matches('.subtract-icon')) {
-    var targetLi = event.target.closest('li');
-    var targetId = targetLi.getAttribute('data-entry-id');
-    var targetIdNumber = parseInt(targetId);
+// document.addEventListener('click', function (event) {
+//   if (event.target && event.target.matches('.subtract-icon')) {
+//     var targetLi = event.target.closest('li');
+//     var targetId = targetLi.getAttribute('data-entry-id');
+//     var targetIdNumber = parseInt(targetId);
 
-    var $watchListUl = document.getElementById('watch-list-render-ul');
-    $watchListUl.textContent = '';
-    for (var i = 0; i < data.favorites.length; i++) {
-      if (targetIdNumber === data.favorites[i].entryId) {
-        data.favorites.splice(i, 1);
+//     var $watchListUl = document.getElementById('watch-list-render-ul');
+//     $watchListUl.textContent = '';
+//     for (var i = 0; i < data.favorites.length; i++) {
+//       if (targetIdNumber === data.favorites[i].entryId) {
+//         data.favorites.splice(i, 1);
 
-        // renders update list
-        for (var a = 0; a < data.favorites.length; a++) {
-          var ulElementWatchList = document.getElementById('watch-list-render-ul');
-          var WatchListRefresh = renderMovies(data.favorites[a]);
-          ulElementWatchList.appendChild(WatchListRefresh);
-        }
-      }
-      changePlusIcon();
-    }
-  }
-});
+//         // renders update list
+//         for (var a = 0; a < data.favorites.length; a++) {
+//           var ulElementWatchList = document.getElementById('watch-list-render-ul');
+//           var WatchListRefresh = renderMovies(data.favorites[a]);
+//           ulElementWatchList.appendChild(WatchListRefresh);
+//         }
+//       }
+//       changePlusIcon();
+//     }
+//   }
+// });
 
 // DELETE BUTTON FOR LIST MODAL (movie details view)
 
-document.addEventListener('click', function (event) {
-  if (event.target && event.target.matches('.subtract-modal-icon')) {
+// document.addEventListener('click', function (event) {
+//   if (event.target && event.target.matches('.subtract-modal-icon')) {
 
-    var modalId = data.modal[0].entryId;
+//     var modalId = data.modal[0].entryId;
 
-    var $watchListUl = document.getElementById('watch-list-render-ul');
-    $watchListUl.textContent = '';
+//     var $watchListUl = document.getElementById('watch-list-render-ul');
+//     $watchListUl.textContent = '';
 
-    for (var i = 0; i < data.favorites.length; i++) {
-      if (modalId === data.favorites[i].entryId) {
-        data.favorites.splice(i, 1);
+//     for (var i = 0; i < data.favorites.length; i++) {
+//       if (modalId === data.favorites[i].entryId) {
+//         data.favorites.splice(i, 1);
 
-        // renders update list
-        for (var a = 0; a < data.favorites.length; a++) {
-          var ulElementWatchList = document.getElementById('watch-list-render-ul');
-          var WatchListRefresh = renderMovies(data.favorites[a]);
-          ulElementWatchList.appendChild(WatchListRefresh);
-        }
-      }
-      var $modalCard = document.querySelector('[data-view="list-modal-view"]');
-      $modalCard.className = 'hidden';
-      data.modal = [];
-      changePlusIcon();
-    }
-  }
-});
+//         // renders update list
+//         for (var a = 0; a < data.favorites.length; a++) {
+//           var ulElementWatchList = document.getElementById('watch-list-render-ul');
+//           var WatchListRefresh = renderMovies(data.favorites[a]);
+//           ulElementWatchList.appendChild(WatchListRefresh);
+//         }
+//       }
+//       var $modalCard = document.querySelector('[data-view="list-modal-view"]');
+//       $modalCard.className = 'hidden';
+//       data.modal = [];
+//       changePlusIcon();
+//     }
+//   }
+// });
 
 // CHANGES + ICONS TO -
 function changePlusIcon() {
@@ -734,12 +739,65 @@ var $rightArrow = document.getElementById('right-arrow');
 
 $rightArrow.addEventListener('click', function (event) {
   var nowPlayingUl = document.getElementById('now-playing-render-ul');
-  nowPlayingUl.scrollLeft += 225;
+  nowPlayingUl.scrollLeft += 200;
 });
 
 var $leftArrow = document.getElementById('left-arrow');
 
 $leftArrow.addEventListener('click', function (event) {
   var nowPlayingUl = document.getElementById('now-playing-render-ul');
-  nowPlayingUl.scrollLeft -= 225;
+  nowPlayingUl.scrollLeft -= 200;
+});
+
+// HIDES CONFIRM DELETE MODAL WHEN CANCEL IS CLICKED
+document.addEventListener('click', function (event) {
+  if (event.target.matches('#confirm-cancel-link')) {
+    $confirmDeleteModal.className = 'hidden';
+    data.deleteId = null;
+  }
+});
+
+// SHOWS CONFIRM DELETE MODAL WHEN 'SUBTRACT ICON' IS CLICKED
+document.addEventListener('click', function (event) {
+  if (event.target.matches('.subtract-icon')) {
+    $confirmDeleteModal.className = '';
+    var targetLi = event.target.closest('li');
+    var targetId = targetLi.getAttribute('data-entry-id');
+    var targetIdNumber = parseInt(targetId);
+
+    for (var i = 0; i < data.favorites.length; i++) {
+      if (targetIdNumber === data.favorites[i].entryId) {
+        data.deleteId = data.favorites[i].entryId;
+      }
+    }
+  } else if (event.target.matches('.subtract-modal-icon')) {
+    $confirmDeleteModal.className = '';
+  }
+});
+
+// FUNCTION DELTES MOVIE FROM ARRAY AND REFRESH RENDER LIST ONCE 'CONFIRM DELETE BTN' IS CLICKED
+
+document.addEventListener('click', function (event) {
+  if (event.target.matches('.confirm-delete-btn')) {
+    var $watchListUl = document.getElementById('watch-list-render-ul');
+    $watchListUl.textContent = '';
+
+    for (var i = 0; i < data.favorites.length; i++) {
+      if (data.deleteId === data.favorites[i].entryId) {
+        data.favorites.splice(i, 1);
+        // console.log(data.favorites[i]);
+        // renders update list
+        for (var a = 0; a < data.favorites.length; a++) {
+          var ulElementWatchList = document.getElementById('watch-list-render-ul');
+          var WatchListRefresh = renderMovies(data.favorites[a]);
+          ulElementWatchList.appendChild(WatchListRefresh);
+        }
+      }
+      changePlusIcon();
+      // data.deleteId = null;
+      $modalCardWatchList.className = 'hidden';
+      $confirmDeleteModal.className = 'hidden';
+    }
+    data.deleteId = null;
+  }
 });

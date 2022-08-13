@@ -38,6 +38,17 @@
   </header>
   <main>
     <div class="container pad-top-bottom nav-margin-top footer-margin-bottom">
+      <div class="hidden" data-view="confirm-delete-modal">
+        <div class="row modal-confirm-delete flex-row align-cont-center">
+          <div class="column-full space-between">
+            <p class="confirm-modal-title">Are you sure you want to delete <span id="delete-movie-title">movie</span> from Watch List?</p>
+            <div class="flex-row space-between align-cont-center">
+              <a id="confirm-cancel-link" class="confirm-cancel-link" href="#">Cancel</a>
+              <button class="confirm-delete-btn">delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="hidden" data-view="added-movie-modal">
         <div class="row modal-movie-added flex-row align-cont-center">
           <div class="column-full flex-row space-between">
@@ -204,7 +215,7 @@
   <footer class="footer footer-bg">
     <div class="flex-row align-cont-center container pad-left-right">
       <div class="row flex-row flex-wrap-footer">
-        <div class="column-half flex-row space-between align-cont-center pad-left-right">
+        <div class="column-half flex-mobile flex-row space-between align-cont-center pad-left-right">
           <p class="logo-footer">movie finder</p>
           <form action="" class="footer-form">
             <label for="movie-search"></label>

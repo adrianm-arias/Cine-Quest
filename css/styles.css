@@ -8,9 +8,10 @@
 }
 
 .nav-icon {
+  margin-top: 0.4rem;
   cursor: pointer;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.5rem;
+  height: 1.5rem;
   filter: invert(100%) sepia(74%) saturate(0%) hue-rotate(320deg) brightness(111%) contrast(101%);
 }
 
@@ -66,6 +67,7 @@ ul {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1;
 }
 
 header {
@@ -77,11 +79,10 @@ header {
 .overlay {
   background: rgba(15, 75, 87, 0.75);
   width: 100%;
-  height: 40vh;
 }
 
 .cover-image {
-  background-image: url("images/empty-theatre.jpg");
+  background-image: url("/images/empty-theatre.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -437,6 +438,51 @@ input:focus {
   text-decoration: underline;
 }
 
+/* confirm delete modal  */
+.modal-confirm-delete {
+  background-color: #f9f6f0;
+  padding: 1rem 2rem;
+  padding-bottom: 1.5rem;
+  border-radius: 1rem;
+  position: fixed;
+  top: 35%;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  max-width: 50%;
+  border: 2px solid #0f4b57;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 10px 25px, rgba(0, 0, 0, 0.115) 0 15px 12px;
+}
+
+.confirm-delete-btn {
+  cursor: pointer;
+  background-color: #ad343e;
+  color: white;
+  text-transform: capitalize;
+  border: none;
+  font-size: 1.1rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 0.5rem;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+}
+
+.confirm-cancel-link {
+  color: #0f4b57;
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.confirm-modal-title {
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
 /* now playing section */
 
 .now-playing-img {
@@ -553,5 +599,46 @@ input:focus {
 
   .footer-form {
     padding: 0 0.3rem;
+  }
+
+  .modal-container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 375px) {
+  /* body {
+    background-color: red;
+  } */
+  .nav-open {
+    height: 40vh;
+  }
+
+  .flex-mobile {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
+
+  .upcoming-movie-btn,
+  .popular-movie-btn {
+    /* padding: 1rem 0.5rem; */
+
+    /* width: 90%; */
+
+    /* margin: 0 1rem; */
+  }
+
+  .footer-margin-bottom {
+    margin-bottom: 225px;
+  }
+
+  .search-input-footer {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .search-btn-footer {
+    padding: 0.4rem 0.5rem;
   }
 }
