@@ -641,4 +641,51 @@ input:focus {
   .search-btn-footer {
     padding: 0.4rem 0.5rem;
   }
+
+  .column-two-thirds {
+    width: 50%;
+  }
+
+  .movie-img-small {
+    height: 225px;
+  }
+
+  .movie-title {
+    font-size: 1.4rem;
+    margin-top: 0;
+  }
+
+  .movie-info {
+    font-size: 1rem;
+  }
+
+  .movie-border {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-right: solid #0f4b57 0;
+    border-top: solid #0f4b57 0;
+    border-bottom: solid #0f4b57 0;
+
+    /* margin-bottom: 2; */
+  }
+
+  .movie-btn {
+    /* padding: 0.3rem 0.6rem; */
+    border-radius: 0.3rem;
+    font-size: 0.7rem;
+    margin-right: 0.5rem;
+  }
+
+  .subtract-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 5rem;
+    padding: 0.4rem;
+
+    /* margin: 0.2rem; */
+  }
+
+  .movie-details-wrapper {
+    margin-left: 0.5rem;
+  }
 }
