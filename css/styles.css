@@ -604,12 +604,21 @@ input:focus {
   .modal-container {
     width: 90%;
   }
+
+  .movie-border {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-right: solid #0f4b57 0;
+    border-top: solid #0f4b57 0;
+    border-bottom: solid #0f4b57 0;
+  }
 }
 
 @media (max-width: 375px) {
-  /* body {
-    background-color: red;
-  } */
+  .column-half {
+    width: 100%;
+  }
+
   .nav-open {
     height: 40vh;
   }
@@ -623,11 +632,9 @@ input:focus {
 
   .upcoming-movie-btn,
   .popular-movie-btn {
-    /* padding: 1rem 0.5rem; */
-
-    /* width: 90%; */
-
-    /* margin: 0 1rem; */
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    margin: 0 0.5rem;
   }
 
   .footer-margin-bottom {
@@ -659,16 +666,6 @@ input:focus {
     font-size: 1rem;
   }
 
-  .movie-border {
-    border-top-right-radius: 1rem;
-    border-bottom-right-radius: 1rem;
-    border-right: solid #0f4b57 0;
-    border-top: solid #0f4b57 0;
-    border-bottom: solid #0f4b57 0;
-
-    /* margin-bottom: 2; */
-  }
-
   .movie-btn {
     /* padding: 0.3rem 0.6rem; */
     border-radius: 0.3rem;
@@ -687,5 +684,10 @@ input:focus {
 
   .movie-details-wrapper {
     margin-left: 0.5rem;
+  }
+
+  .movie-img-card,
+  .list-movie-img-card {
+    height: 225px;
   }
 }
