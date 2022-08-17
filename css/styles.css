@@ -8,9 +8,10 @@
 }
 
 .nav-icon {
+  margin-top: 0.4rem;
   cursor: pointer;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.5rem;
+  height: 1.5rem;
   filter: invert(100%) sepia(74%) saturate(0%) hue-rotate(320deg) brightness(111%) contrast(101%);
 }
 
@@ -66,6 +67,7 @@ ul {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1;
 }
 
 header {
@@ -77,11 +79,10 @@ header {
 .overlay {
   background: rgba(15, 75, 87, 0.75);
   width: 100%;
-  height: 40vh;
 }
 
 .cover-image {
-  background-image: url("images/empty-theatre.jpg");
+  background-image: url("/images/empty-theatre.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -298,6 +299,17 @@ input:focus {
 .transparent-bg {
   background-color: #323232a1;
   z-index: 1;
+  animation: fadein 0.3s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .window-full-heigth {
@@ -437,6 +449,52 @@ input:focus {
   text-decoration: underline;
 }
 
+/* confirm delete modal  */
+.modal-confirm-delete {
+  background-color: white;
+  padding: 1rem 2rem;
+  padding-bottom: 1.5rem;
+  border-radius: 1rem;
+  position: fixed;
+  top: 35%;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  max-width: 50%;
+  border: 2px solid #0f4b57;
+  box-shadow: rgba(0, 0, 0, 0.115) 0 8px 15px, rgba(0, 0, 0, 0.115) 0 15px 12px;
+  animation: fadein 0.3s;
+}
+
+.confirm-delete-btn {
+  cursor: pointer;
+  background-color: #ad343e;
+  color: white;
+  text-transform: capitalize;
+  border: none;
+  font-size: 1.1rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 0.5rem;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+}
+
+.confirm-cancel-link {
+  color: #0f4b57;
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.confirm-modal-title {
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
 /* now playing section */
 
 .now-playing-img {
@@ -553,5 +611,130 @@ input:focus {
 
   .footer-form {
     padding: 0 0.3rem;
+  }
+
+  .modal-container {
+    width: 75%;
+  }
+
+  .movie-border {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-right: solid #0f4b57 2px;
+    border-top: solid #0f4b57 2px;
+    border-bottom: solid #0f4b57 2px;
+  }
+
+  .modal-movie-added {
+    width: 60%;
+    height: 6vh;
+  }
+
+  .modal-confirm-delete {
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 375px) {
+  .column-half {
+    width: 100%;
+  }
+
+  .modal-confirm-delete {
+    max-width: 80%;
+  }
+
+  .modal-movie-added {
+    width: 90%;
+    height: 6vh;
+  }
+
+  .modal-container {
+    width: 95%;
+  }
+
+  .nav-open {
+    height: 40vh;
+  }
+
+  .flex-mobile {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
+
+  .upcoming-movie-btn,
+  .popular-movie-btn {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    margin: 0 0.5rem;
+  }
+
+  .footer-margin-bottom {
+    margin-bottom: 225px;
+  }
+
+  .search-input-footer {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .search-btn-footer {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .column-two-thirds {
+    width: 100%;
+  }
+
+  .movie-img-small {
+    height: 225px;
+  }
+
+  .movie-title {
+    font-size: 1.4rem;
+    margin-top: 0;
+  }
+
+  .movie-info {
+    font-size: 1rem;
+  }
+
+  .movie-info-card,
+  .movie-info-card-list-title,
+  .movie-info-card-date,
+  .movie-info-card-rating,
+  .list-movie-info-card-date,
+  .list-movie-info-card-rating {
+    font-size: 0.9rem;
+    margin: 0.3rem;
+  }
+
+  .movie-btn {
+    border-radius: 0.3rem;
+    font-size: 0.7rem;
+    margin-right: 0.5rem;
+  }
+
+  .subtract-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 5rem;
+    padding: 0.4rem;
+  }
+
+  .movie-details-wrapper {
+    margin-left: 0.5rem;
+  }
+
+  .movie-img-card,
+  .list-movie-img-card {
+    height: 225px;
+  }
+
+  .movie-border {
+    border-right: solid #0f4b57 0;
+    border-top: solid #0f4b57 0;
+    border-bottom: solid #0f4b57 0;
   }
 }

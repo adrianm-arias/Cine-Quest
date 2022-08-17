@@ -6,6 +6,7 @@ var data = {
   modal: [],
   playing: [],
   resultNumber: null,
+  deleteId: null,
   searchKeyword: ''
 };
 

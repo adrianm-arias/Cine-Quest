@@ -1,19 +1,21 @@
 // CAPTURES SEARCH INPUT VALUES
 
-var $searchForm = document.querySelector('.search-form');
-var $searchResultKeyword = document.querySelector('.search-results-keyword');
-var $searchResultNumber = document.querySelector('.search-results-number');
+const $searchForm = document.querySelector('.search-form');
+const $searchResultKeyword = document.querySelector('.search-results-keyword');
+const $searchResultNumber = document.querySelector('.search-results-number');
 
 // QUERIES DATA VIEW PROPERTIES FROM DOM
 
-var $viewSearchMovies = document.querySelector('[data-view="search-movies"]');
-var $viewSearchForm = document.querySelector('[data-view="search-form"]');
-var $upcomingMoviesView = document.querySelector('[data-view="upcoming-movies-view"]');
-var $popularMoviesView = document.querySelector('[data-view="popular-movies-view"]');
-var $watchListView = document.querySelector('[data-view="watch-list-view"]');
-var $addedMovieModal = document.querySelector('[data-view="added-movie-modal"]');
+const $viewSearchMovies = document.querySelector('[data-view="search-movies"]');
+const $viewSearchForm = document.querySelector('[data-view="search-form"]');
+const $upcomingMoviesView = document.querySelector('[data-view="upcoming-movies-view"]');
+const $popularMoviesView = document.querySelector('[data-view="popular-movies-view"]');
+const $watchListView = document.querySelector('[data-view="watch-list-view"]');
+const $addedMovieModal = document.querySelector('[data-view="added-movie-modal"]');
+const $modalCardWatchList = document.querySelector('[data-view="list-modal-view"]');
+const $confirmDeleteModal = document.querySelector('[data-view="confirm-delete-modal"]');
 
-var $searchFooterForm = document.querySelector('.footer-form');
+const $searchFooterForm = document.querySelector('.footer-form');
 
 // FUNCTION LISTEN FOR SUBMIT EVENT OF SEARCH INPUTS
 
@@ -27,13 +29,13 @@ document.addEventListener('submit', function (event) {
   data.resultNumber = null;
   data.searchKeyword = '';
   data.movies = [];
-  var $movieRenderUl = document.getElementById('movie-render-ul');
+  const $movieRenderUl = document.getElementById('movie-render-ul');
   $movieRenderUl.textContent = '';
 
   if (event.target.matches('.search-form')) {
     // calls search api for main input
 
-    var searchQuery = $searchForm.elements.search.value;
+    const searchQuery = $searchForm.elements.search.value;
     $searchForm.reset();
     searchApi(searchQuery);
     $searchResultKeyword.textContent = searchQuery;
@@ -44,7 +46,7 @@ document.addEventListener('submit', function (event) {
   }
   if (event.target.matches('.footer-form')) {
     // calls search api for footer input
-    var searchQueryFooter = $searchFooterForm.elements.search.value;
+    const searchQueryFooter = $searchFooterForm.elements.search.value;
     $searchFooterForm.reset();
     searchApi(searchQueryFooter);
     $searchResultKeyword.textContent = searchQueryFooter;
@@ -57,7 +59,7 @@ document.addEventListener('submit', function (event) {
 
 // CHANGES VIEWS TO SEARCH FORM (NAV LINK)
 
-var $searchNavLink = document.getElementById('search-nav-link');
+const $searchNavLink = document.getElementById('search-nav-link');
 
 $searchNavLink.addEventListener('click', function (event) {
   $viewSearchMovies.className = 'hidden';
@@ -77,18 +79,18 @@ $searchNavLink.addEventListener('click', function (event) {
 // API FOR SEARCH BY MOVIE TITLE FEATURE
 
 function searchApi(keyword) {
-  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/search/movie?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&');
-  var xhr = new XMLHttpRequest();
+  const targetUrl = encodeURIComponent('https://api.themoviedb.org/3/search/movie?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&');
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl + 'query=' + keyword + '&page=1');
   xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    var response = xhr.response.results;
-    var resultNo = xhr.response.total_results;
+    const response = xhr.response.results;
+    const resultNo = xhr.response.total_results;
     $searchResultNumber.textContent = resultNo;
     data.resultNumber = resultNo;
-    for (var i = 0; i < response.length; i++) {
-      var movieEntry = {};
+    for (let i = 0; i < response.length; i++) {
+      const movieEntry = {};
       movieEntry.title = response[i].title;
       movieEntry.releaseDate = response[i].release_date;
       movieEntry.userRating = response[i].vote_average;
@@ -100,8 +102,8 @@ function searchApi(keyword) {
       }
       movieEntry.description = response[i].overview;
       data.movies.push(movieEntry);
-      var renderNewMovie = renderMovies(movieEntry);
-      var ulElement = document.getElementById('movie-render-ul');
+      const renderNewMovie = renderMovies(movieEntry);
+      const ulElement = document.getElementById('movie-render-ul');
       ulElement.appendChild(renderNewMovie);
     }
   });
@@ -112,50 +114,50 @@ function searchApi(keyword) {
 
 function renderMovies(movie) {
 
-  var liItem = document.createElement('li');
-  var divRow = document.createElement('div');
+  const liItem = document.createElement('li');
+  const divRow = document.createElement('div');
   divRow.className = 'row flex-row justify-content-center pad-bottom';
   liItem.appendChild(divRow);
   liItem.setAttribute('data-entry-id', movie.entryId);
 
-  var divColumn = document.createElement('div');
+  const divColumn = document.createElement('div');
   divColumn.className = 'column-one-thirds';
   divRow.appendChild(divColumn);
 
-  var movieImg = document.createElement('img');
+  const movieImg = document.createElement('img');
   movieImg.className = 'movie-img-small';
   movieImg.setAttribute('src', movie.posterUrl);
   divColumn.appendChild(movieImg);
 
-  var divColumnText = document.createElement('div');
+  const divColumnText = document.createElement('div');
   divColumnText.className = 'column-two-thirds flex-row movie-border align-cont-center';
   divRow.appendChild(divColumnText);
 
-  var divWrapper = document.createElement('div');
+  const divWrapper = document.createElement('div');
   divWrapper.className = 'movie-details-wrapper';
   divColumnText.appendChild(divWrapper);
 
-  var movieTitle = document.createElement('h1');
+  const movieTitle = document.createElement('h1');
   movieTitle.textContent = movie.title;
   movieTitle.className = 'movie-title';
   divWrapper.appendChild(movieTitle);
-  var movieRelease = document.createElement('h2');
+  const movieRelease = document.createElement('h2');
   movieRelease.className = 'movie-info';
   movieRelease.textContent = 'Release Date: ' + movie.releaseDate;
   divWrapper.appendChild(movieRelease);
-  var movieRating = document.createElement('h2');
+  const movieRating = document.createElement('h2');
   movieRating.className = 'movie-info';
   movieRating.textContent = 'User Rating: ' + movie.userRating;
   divWrapper.appendChild(movieRating);
 
-  var btnWrapper = document.createElement('div');
+  const btnWrapper = document.createElement('div');
   btnWrapper.className = 'flex-row align-cont-center';
   divWrapper.appendChild(btnWrapper);
-  var movieBtn = document.createElement('button');
+  const movieBtn = document.createElement('button');
   movieBtn.textContent = 'View Movie Details';
   movieBtn.className = 'movie-btn';
   btnWrapper.appendChild(movieBtn);
-  var addBtn = document.createElement('img');
+  const addBtn = document.createElement('img');
   addBtn.setAttribute('src', 'images/add-icon.svg');
   addBtn.className = 'add-icon';
   btnWrapper.appendChild(addBtn);
@@ -167,61 +169,61 @@ function renderMovies(movie) {
 document.addEventListener('click', function (event) {
   if (data.view !== 'watch-list-view') {
     if (event.target && event.target.matches('.movie-btn')) {
-      var targetLi = event.target.closest('li');
-      var targetId = targetLi.getAttribute('data-entry-id');
-      var targetIdNumber = parseInt(targetId);
-      var movieCardModal = {};
-      for (var i = 0; i < data.movies.length; i++) {
+      const targetLi = event.target.closest('li');
+      const targetId = targetLi.getAttribute('data-entry-id');
+      const targetIdNumber = parseInt(targetId);
+      const movieCardModal = {};
+      for (let i = 0; i < data.movies.length; i++) {
         if (targetIdNumber === data.movies[i].entryId) {
-          var $modalCardTitle = document.querySelector('.movie-title-card');
+          const $modalCardTitle = document.querySelector('.movie-title-card');
           $modalCardTitle.textContent = data.movies[i].title;
           movieCardModal.title = data.movies[i].title;
-          var $modalCardDate = document.querySelector('.movie-info-card-date');
+          const $modalCardDate = document.querySelector('.movie-info-card-date');
           $modalCardDate.textContent = data.movies[i].releaseDate;
           movieCardModal.date = data.movies[i].releaseDate;
-          var $modalCardRating = document.querySelector('.movie-info-card-rating');
+          const $modalCardRating = document.querySelector('.movie-info-card-rating');
           $modalCardRating.textContent = data.movies[i].userRating + ' / 10';
           movieCardModal.rating = data.movies[i].userRating + ' / 10';
-          var $modalCardUrl = document.querySelector('.movie-img-card');
+          const $modalCardUrl = document.querySelector('.movie-img-card');
           $modalCardUrl.setAttribute('src', data.movies[i].posterUrl);
           movieCardModal.imgUrl = data.movies[i].posterUrl;
-          var $modalCardDesc = document.querySelector('.movie-info-card-desc');
+          const $modalCardDesc = document.querySelector('.movie-info-card-desc');
           $modalCardDesc.textContent = data.movies[i].description;
           movieCardModal.description = data.movies[i].description;
           movieCardModal.entryId = data.movies[i].entryId;
         }
       }
       data.modal.push(movieCardModal);
-      var $modalCard = document.querySelector('[data-view="modal-card-view"]');
+      const $modalCard = document.querySelector('[data-view="modal-card-view"]');
       $modalCard.className = '';
     }
     if (event.target.matches('.now-playing-link')) {
-      var targetLiNowPlaying = event.target.closest('li');
-      var targetIdNowPlaying = targetLiNowPlaying.getAttribute('data-entry-id');
-      var targetIdNumberNowPlaying = parseInt(targetIdNowPlaying);
-      var movieCardModalNowPlaying = {};
-      for (var y = 0; y < data.playing.length; y++) {
+      const targetLiNowPlaying = event.target.closest('li');
+      const targetIdNowPlaying = targetLiNowPlaying.getAttribute('data-entry-id');
+      const targetIdNumberNowPlaying = parseInt(targetIdNowPlaying);
+      const movieCardModalNowPlaying = {};
+      for (let y = 0; y < data.playing.length; y++) {
         if (targetIdNumberNowPlaying === data.playing[y].entryId) {
-          var $modalCardTitleNowPlaying = document.querySelector('.movie-title-card');
+          const $modalCardTitleNowPlaying = document.querySelector('.movie-title-card');
           $modalCardTitleNowPlaying.textContent = data.playing[y].title;
           movieCardModalNowPlaying.title = data.playing[y].title;
-          var $modalCardDateNowPlaying = document.querySelector('.movie-info-card-date');
+          const $modalCardDateNowPlaying = document.querySelector('.movie-info-card-date');
           $modalCardDateNowPlaying.textContent = data.playing[y].releaseDate;
           movieCardModalNowPlaying.date = data.playing[y].releaseDate;
-          var $modalCardRatingNowPlaying = document.querySelector('.movie-info-card-rating');
+          const $modalCardRatingNowPlaying = document.querySelector('.movie-info-card-rating');
           $modalCardRatingNowPlaying.textContent = data.playing[y].userRating + ' / 10';
           movieCardModalNowPlaying.rating = data.playing[y].userRating + ' / 10';
-          var $modalCardUrlNowPlaying = document.querySelector('.movie-img-card');
+          const $modalCardUrlNowPlaying = document.querySelector('.movie-img-card');
           $modalCardUrlNowPlaying.setAttribute('src', data.playing[y].posterUrl);
           movieCardModalNowPlaying.imgUrl = data.playing[y].posterUrl;
-          var $modalCardDescNowPlaying = document.querySelector('.movie-info-card-desc');
+          const $modalCardDescNowPlaying = document.querySelector('.movie-info-card-desc');
           $modalCardDescNowPlaying.textContent = data.playing[y].description;
           movieCardModalNowPlaying.description = data.playing[y].description;
           movieCardModalNowPlaying.entryId = data.playing[y].entryId;
         }
       }
       data.modal.push(movieCardModalNowPlaying);
-      var $modalCardNowPlaying = document.querySelector('[data-view="modal-card-view"]');
+      const $modalCardNowPlaying = document.querySelector('[data-view="modal-card-view"]');
       $modalCardNowPlaying.className = '';
     }
   }
@@ -232,32 +234,33 @@ document.addEventListener('click', function (event) {
   if (data.view === 'watch-list-view') {
     if (event.target && event.target.matches('.movie-btn')) {
 
-      var targetLi = event.target.closest('li');
-      var targetId = targetLi.getAttribute('data-entry-id');
-      var targetIdNumber = parseInt(targetId);
-      var movieCardModal = {};
-      for (var i = 0; i < data.favorites.length; i++) {
+      const targetLi = event.target.closest('li');
+      const targetId = targetLi.getAttribute('data-entry-id');
+      const targetIdNumber = parseInt(targetId);
+      const movieCardModal = {};
+      data.deleteId = targetIdNumber;
+      for (let i = 0; i < data.favorites.length; i++) {
         if (targetIdNumber === data.favorites[i].entryId) {
-          var $modalCardTitleList = document.querySelector('.movie-list-title-card');
+          const $modalCardTitleList = document.querySelector('.movie-list-title-card');
           $modalCardTitleList.textContent = data.favorites[i].title;
           movieCardModal.title = data.favorites[i].title;
-          var $modalCardDateList = document.querySelector('.list-movie-info-card-date');
+          const $modalCardDateList = document.querySelector('.list-movie-info-card-date');
           $modalCardDateList.textContent = data.favorites[i].releaseDate;
           movieCardModal.date = data.favorites[i].releaseDate;
-          var $modalCardRatingList = document.querySelector('.list-movie-info-card-rating');
+          const $modalCardRatingList = document.querySelector('.list-movie-info-card-rating');
           $modalCardRatingList.textContent = data.favorites[i].userRating + ' / 10';
           movieCardModal.rating = data.favorites[i].userRating + ' / 10';
-          var $modalCardUrlList = document.querySelector('.list-movie-img-card');
+          const $modalCardUrlList = document.querySelector('.list-movie-img-card');
           $modalCardUrlList.setAttribute('src', data.favorites[i].posterUrl);
           movieCardModal.imgUrl = data.favorites[i].posterUrl;
-          var $modalCardDescList = document.querySelector('.list-movie-info-card-desc');
+          const $modalCardDescList = document.querySelector('.list-movie-info-card-desc');
           $modalCardDescList.textContent = data.favorites[i].description;
           movieCardModal.description = data.favorites[i].description;
           movieCardModal.entryId = data.favorites[i].entryId;
         }
       }
       data.modal.push(movieCardModal);
-      var $modalCard = document.querySelector('[data-view="list-modal-view"]');
+      const $modalCard = document.querySelector('[data-view="list-modal-view"]');
       $modalCard.className = '';
     }
   }
@@ -266,20 +269,22 @@ document.addEventListener('click', function (event) {
 
 // EVENT CLOSES LIST MODAL WINDOW WHEN X BUTTON IS CLICKED
 
-var $closeListModalBtn = document.querySelector('.list-modal-btn');
+const $closeListModalBtn = document.querySelector('.list-modal-btn');
 $closeListModalBtn.addEventListener('click', function (event) {
-  var $modalCard = document.querySelector('[data-view="list-modal-view"]');
+  const $modalCard = document.querySelector('[data-view="list-modal-view"]');
   $modalCard.className = 'hidden';
   data.modal = [];
+  data.deleteId = null;
 });
 
 // EVENT CLOSES MODAL WINDOW WHEN X BUTTON IS CLICKED
 
-var $closeModalBtn = document.querySelector('.modal-btn');
+const $closeModalBtn = document.querySelector('.modal-btn');
 $closeModalBtn.addEventListener('click', function (event) {
-  var $modalCard = document.querySelector('[data-view="modal-card-view"]');
+  const $modalCard = document.querySelector('[data-view="modal-card-view"]');
   $modalCard.className = 'hidden';
   data.modal = [];
+  data.deleteId = null;
 });
 
 // ENSURES CORRECT PAGE VIEW IS LOADED AFTER PAGE REFRESH
@@ -293,9 +298,9 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $watchListView.className = 'hidden';
   }
   if (data.view === 'search-movies') {
-    for (var i = 0; i < data.movies.length; i++) {
-      var ulElement = document.getElementById('movie-render-ul');
-      var movieRefresh = renderMovies(data.movies[i]);
+    for (let i = 0; i < data.movies.length; i++) {
+      const ulElement = document.getElementById('movie-render-ul');
+      const movieRefresh = renderMovies(data.movies[i]);
       ulElement.appendChild(movieRefresh);
       $searchResultNumber.textContent = data.resultNumber;
       $searchResultKeyword.textContent = data.searchKeyword;
@@ -307,9 +312,9 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $watchListView.className = 'hidden';
   }
   if (data.view === 'upcoming-movies-view') {
-    for (var y = 0; y < data.movies.length; y++) {
-      var ulElementUpcoming = document.getElementById('upcoming-movie-render-ul');
-      var upcomingMovieRefresh = renderMovies(data.movies[y]);
+    for (let y = 0; y < data.movies.length; y++) {
+      const ulElementUpcoming = document.getElementById('upcoming-movie-render-ul');
+      const upcomingMovieRefresh = renderMovies(data.movies[y]);
       ulElementUpcoming.appendChild(upcomingMovieRefresh);
     }
     $upcomingMoviesView.className = '';
@@ -319,9 +324,9 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $watchListView.className = 'hidden';
   }
   if (data.view === 'popular-movies-view') {
-    for (var j = 0; j < data.movies.length; j++) {
-      var ulElementPopular = document.getElementById('popular-movie-render-ul');
-      var popularMovieRefresh = renderMovies(data.movies[j]);
+    for (let j = 0; j < data.movies.length; j++) {
+      const ulElementPopular = document.getElementById('popular-movie-render-ul');
+      const popularMovieRefresh = renderMovies(data.movies[j]);
       ulElementPopular.appendChild(popularMovieRefresh);
     }
     $popularMoviesView.className = '';
@@ -331,9 +336,9 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $watchListView.className = 'hidden';
   }
   if (data.view === 'watch-list-view') {
-    for (var a = 0; a < data.favorites.length; a++) {
-      var ulElementWatchList = document.getElementById('watch-list-render-ul');
-      var WatchListRefresh = renderMovies(data.favorites[a]);
+    for (let a = 0; a < data.favorites.length; a++) {
+      const ulElementWatchList = document.getElementById('watch-list-render-ul');
+      const WatchListRefresh = renderMovies(data.favorites[a]);
       ulElementWatchList.appendChild(WatchListRefresh);
     }
     changePlusIcon();
@@ -368,6 +373,8 @@ document.addEventListener('click', function (event) {
       });
     }
 
+    changeSubtractIcon();
+
     // resets data model object
 
     data.resultNumber = null;
@@ -376,15 +383,15 @@ document.addEventListener('click', function (event) {
 
     // calls for api for upcoming movies
 
-    var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/upcoming?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-    var xhr = new XMLHttpRequest();
+    const targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/upcoming?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
     xhr.setRequestHeader('token', 'abc123');
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      var response = xhr.response.results;
-      for (var i = 0; i < response.length; i++) {
-        var movieEntry = {};
+      const response = xhr.response.results;
+      for (let i = 0; i < response.length; i++) {
+        const movieEntry = {};
         movieEntry.title = response[i].title;
         movieEntry.releaseDate = response[i].release_date;
         movieEntry.userRating = response[i].vote_average;
@@ -396,8 +403,8 @@ document.addEventListener('click', function (event) {
         }
         movieEntry.description = response[i].overview;
         data.movies.push(movieEntry);
-        var renderNewMovie = renderMovies(movieEntry);
-        var ulElement = document.getElementById('upcoming-movie-render-ul');
+        const renderNewMovie = renderMovies(movieEntry);
+        const ulElement = document.getElementById('upcoming-movie-render-ul');
         ulElement.appendChild(renderNewMovie);
       }
       data.view = 'upcoming-movies-view';
@@ -409,10 +416,10 @@ document.addEventListener('click', function (event) {
 
 // RESPONSIVE NAV BAR
 
-var $navToggle = document.getElementById('nav-toggle');
-var $navElement = document.querySelector('nav');
-var $navIcon = document.querySelectorAll('.nav-icon');
-var $burgerMenu = document.querySelector('#burger-menu');
+const $navToggle = document.getElementById('nav-toggle');
+const $navElement = document.querySelector('nav');
+const $navIcon = document.querySelectorAll('.nav-icon');
+const $burgerMenu = document.querySelector('#burger-menu');
 
 $navToggle.addEventListener('click', function () {
   $navElement.classList.toggle('nav-open');
@@ -445,6 +452,8 @@ document.addEventListener('click', function (event) {
       });
     }
 
+    changeSubtractIcon();
+
     // hides other views not in use
 
     $viewSearchMovies.className = 'hidden';
@@ -461,15 +470,15 @@ document.addEventListener('click', function (event) {
 
     // calls for api for popular movies
 
-    var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/popular?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-    var xhr = new XMLHttpRequest();
+    const targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/popular?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
     xhr.setRequestHeader('token', 'abc123');
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      var response = xhr.response.results;
-      for (var i = 0; i < response.length; i++) {
-        var movieEntry = {};
+      const response = xhr.response.results;
+      for (let i = 0; i < response.length; i++) {
+        const movieEntry = {};
         movieEntry.title = response[i].title;
         movieEntry.releaseDate = response[i].release_date;
         movieEntry.userRating = response[i].vote_average;
@@ -481,8 +490,8 @@ document.addEventListener('click', function (event) {
         }
         movieEntry.description = response[i].overview;
         data.movies.push(movieEntry);
-        var renderNewMovie = renderMovies(movieEntry);
-        var ulElement = document.getElementById('popular-movie-render-ul');
+        const renderNewMovie = renderMovies(movieEntry);
+        const ulElement = document.getElementById('popular-movie-render-ul');
         ulElement.appendChild(renderNewMovie);
       }
       data.view = 'popular-movies-view';
@@ -499,11 +508,11 @@ function hideAddedMovieModal() {
 document.addEventListener('click', function (event) {
 
   if (event.target && event.target.matches('.add-icon')) {
-    var targetLi = event.target.closest('li');
-    var targetId = targetLi.getAttribute('data-entry-id');
-    var targetIdNumber = parseInt(targetId);
-    var addMovie = {};
-    for (var i = 0; i < data.movies.length; i++) {
+    const targetLi = event.target.closest('li');
+    const targetId = targetLi.getAttribute('data-entry-id');
+    const targetIdNumber = parseInt(targetId);
+    const addMovie = {};
+    for (let i = 0; i < data.movies.length; i++) {
       if (targetIdNumber === data.movies[i].entryId) {
         addMovie.title = data.movies[i].title;
         addMovie.releaseDate = data.movies[i].releaseDate;
@@ -529,10 +538,10 @@ $addedMovieModal.addEventListener('click', function (event) {
 // FUNCTION ADDS MOVIE DETAILS FROM MODAL VIEW TO FAV ARRAY
 document.addEventListener('click', function (event) {
   if (event.target && event.target.matches('.add-modal-icon')) {
-    var modalId = data.modal[0].entryId;
-    var addMovie = {};
+    const modalId = data.modal[0].entryId;
+    const addMovie = {};
     if (data.movies.length === 0) {
-      for (var i = 0; i < data.playing.length; i++) {
+      for (let i = 0; i < data.playing.length; i++) {
         if (modalId === data.playing[i].entryId) {
           addMovie.title = data.playing[i].title;
           addMovie.releaseDate = data.playing[i].releaseDate;
@@ -543,7 +552,7 @@ document.addEventListener('click', function (event) {
         }
       }
     } else {
-      for (var y = 0; y < data.movies.length; y++) {
+      for (let y = 0; y < data.movies.length; y++) {
         if (modalId === data.movies[y].entryId) {
           addMovie.title = data.movies[y].title;
           addMovie.releaseDate = data.movies[y].releaseDate;
@@ -557,7 +566,7 @@ document.addEventListener('click', function (event) {
     data.favorites.unshift(addMovie);
     $addedMovieModal.className = '';
     setTimeout(hideAddedMovieModal, 10000);
-    var $modalCard = document.querySelector('[data-view="modal-card-view"]');
+    const $modalCard = document.querySelector('[data-view="modal-card-view"]');
     $modalCard.className = 'hidden';
     data.modal = [];
   }
@@ -569,7 +578,7 @@ document.addEventListener('click', function (event) {
     event.target.matches('#watch-list-nav-link') ||
     event.target.matches('#watch-list-modal-link')) {
 
-    var $watchListUl = document.getElementById('watch-list-render-ul');
+    const $watchListUl = document.getElementById('watch-list-render-ul');
     $watchListUl.textContent = '';
     data.movies = [];
     // hides mobile nav once link is clicked
@@ -589,9 +598,9 @@ document.addEventListener('click', function (event) {
     $popularMoviesView.className = 'hidden';
     $watchListView.className = 'hidden';
 
-    for (var x = 0; x < data.favorites.length; x++) {
-      var ulElementWatchList = document.getElementById('watch-list-render-ul');
-      var WatchListRefresh = renderMovies(data.favorites[x]);
+    for (let x = 0; x < data.favorites.length; x++) {
+      const ulElementWatchList = document.getElementById('watch-list-render-ul');
+      const WatchListRefresh = renderMovies(data.favorites[x]);
       ulElementWatchList.appendChild(WatchListRefresh);
     }
     data.view = 'watch-list-view';
@@ -605,81 +614,34 @@ document.addEventListener('click', function (event) {
   }
 });
 
-// FUNCTION DELETES MOVIE FROM FAV ARRAY ONCE - BUTTON IS CLICKED
-
-document.addEventListener('click', function (event) {
-  if (event.target && event.target.matches('.subtract-icon')) {
-    var targetLi = event.target.closest('li');
-    var targetId = targetLi.getAttribute('data-entry-id');
-    var targetIdNumber = parseInt(targetId);
-
-    var $watchListUl = document.getElementById('watch-list-render-ul');
-    $watchListUl.textContent = '';
-    for (var i = 0; i < data.favorites.length; i++) {
-      if (targetIdNumber === data.favorites[i].entryId) {
-        data.favorites.splice(i, 1);
-
-        // renders update list
-        for (var a = 0; a < data.favorites.length; a++) {
-          var ulElementWatchList = document.getElementById('watch-list-render-ul');
-          var WatchListRefresh = renderMovies(data.favorites[a]);
-          ulElementWatchList.appendChild(WatchListRefresh);
-        }
-      }
-      changePlusIcon();
-    }
-  }
-});
-
-// DELETE BUTTON FOR LIST MODAL (movie details view)
-
-document.addEventListener('click', function (event) {
-  if (event.target && event.target.matches('.subtract-modal-icon')) {
-
-    var modalId = data.modal[0].entryId;
-
-    var $watchListUl = document.getElementById('watch-list-render-ul');
-    $watchListUl.textContent = '';
-
-    for (var i = 0; i < data.favorites.length; i++) {
-      if (modalId === data.favorites[i].entryId) {
-        data.favorites.splice(i, 1);
-
-        // renders update list
-        for (var a = 0; a < data.favorites.length; a++) {
-          var ulElementWatchList = document.getElementById('watch-list-render-ul');
-          var WatchListRefresh = renderMovies(data.favorites[a]);
-          ulElementWatchList.appendChild(WatchListRefresh);
-        }
-      }
-      var $modalCard = document.querySelector('[data-view="list-modal-view"]');
-      $modalCard.className = 'hidden';
-      data.modal = [];
-      changePlusIcon();
-    }
-  }
-});
-
 // CHANGES + ICONS TO -
 function changePlusIcon() {
-  var addIcons = document.querySelectorAll('.add-icon');
+  const addIcons = document.querySelectorAll('.add-icon');
   addIcons.forEach(function (element) {
     element.setAttribute('src', 'images/subtract-icon.svg');
     element.setAttribute('class', 'subtract-icon');
   });
 }
 
+function changeSubtractIcon() {
+  const addIcons = document.querySelectorAll('.subtract-icon');
+  addIcons.forEach(function (element) {
+    element.setAttribute('src', 'images/add-icon.svg');
+    element.setAttribute('class', 'add-icon');
+  });
+}
+
 // FUNCTION CALLS 'NOW PLAYING' API
 function nowPlayingApi() {
-  var targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/now_playing?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
-  var xhr = new XMLHttpRequest();
+  const targetUrl = encodeURIComponent('https://api.themoviedb.org/3/movie/now_playing?api_key=98a5c967f4f2692337ac21e42f982ea8&language=en-US&page=1');
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
   xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    var response = xhr.response.results;
-    for (var i = 0; i < response.length; i++) {
-      var movieEntry = {};
+    const response = xhr.response.results;
+    for (let i = 0; i < response.length; i++) {
+      const movieEntry = {};
       movieEntry.title = response[i].title;
       movieEntry.releaseDate = response[i].release_date;
       movieEntry.userRating = response[i].vote_average;
@@ -691,8 +653,8 @@ function nowPlayingApi() {
       }
       movieEntry.description = response[i].overview;
       data.playing.push(movieEntry);
-      var renderNewMovie = renderNowPlaying(movieEntry);
-      var ulElement = document.getElementById('now-playing-render-ul');
+      const renderNewMovie = renderNowPlaying(movieEntry);
+      const ulElement = document.getElementById('now-playing-render-ul');
       ulElement.appendChild(renderNewMovie);
     }
   });
@@ -703,23 +665,23 @@ function nowPlayingApi() {
 
 function renderNowPlaying(movie) {
 
-  var liItem = document.createElement('li');
-  var divCol = document.createElement('div');
+  const liItem = document.createElement('li');
+  const divCol = document.createElement('div');
   divCol.className = 'column-full pad-left-right';
   liItem.appendChild(divCol);
   liItem.setAttribute('data-entry-id', movie.entryId);
 
-  var movieImg = document.createElement('img');
+  const movieImg = document.createElement('img');
   movieImg.className = 'now-playing-img';
   movieImg.setAttribute('src', movie.posterUrl);
   divCol.appendChild(movieImg);
 
-  var movieTitle = document.createElement('h3');
+  const movieTitle = document.createElement('h3');
   movieTitle.textContent = movie.title;
   movieTitle.className = 'now-playing-title';
   divCol.appendChild(movieTitle);
 
-  var nowPlayingLink = document.createElement('a');
+  const nowPlayingLink = document.createElement('a');
   nowPlayingLink.className = 'now-playing-link';
   nowPlayingLink.textContent = 'View Details >';
   divCol.appendChild(nowPlayingLink);
@@ -728,18 +690,69 @@ function renderNowPlaying(movie) {
 }
 
 nowPlayingApi();
-var $rightArrow = document.getElementById('right-arrow');
+const $rightArrow = document.getElementById('right-arrow');
 
 // CONTROLS SCROLL FOR NOW PLAYING
 
 $rightArrow.addEventListener('click', function (event) {
-  var nowPlayingUl = document.getElementById('now-playing-render-ul');
-  nowPlayingUl.scrollLeft += 225;
+  const nowPlayingUl = document.getElementById('now-playing-render-ul');
+  nowPlayingUl.scrollLeft += 200;
 });
 
-var $leftArrow = document.getElementById('left-arrow');
+const $leftArrow = document.getElementById('left-arrow');
 
 $leftArrow.addEventListener('click', function (event) {
-  var nowPlayingUl = document.getElementById('now-playing-render-ul');
-  nowPlayingUl.scrollLeft -= 225;
+  const nowPlayingUl = document.getElementById('now-playing-render-ul');
+  nowPlayingUl.scrollLeft -= 200;
+});
+
+// HIDES CONFIRM DELETE MODAL WHEN CANCEL IS CLICKED
+document.addEventListener('click', function (event) {
+  if (event.target.matches('#confirm-cancel-link')) {
+    $confirmDeleteModal.className = 'hidden';
+    data.deleteId = null;
+  }
+});
+
+// SHOWS CONFIRM DELETE MODAL WHEN 'SUBTRACT ICON' IS CLICKED
+document.addEventListener('click', function (event) {
+  if (event.target.matches('.subtract-icon')) {
+    $confirmDeleteModal.className = '';
+    const targetLi = event.target.closest('li');
+    const targetId = targetLi.getAttribute('data-entry-id');
+    const targetIdNumber = parseInt(targetId);
+
+    for (let i = 0; i < data.favorites.length; i++) {
+      if (targetIdNumber === data.favorites[i].entryId) {
+        data.deleteId = data.favorites[i].entryId;
+      }
+    }
+  } else if (event.target.matches('.subtract-modal-icon')) {
+    $confirmDeleteModal.className = '';
+  }
+});
+
+// FUNCTION DELTES MOVIE FROM ARRAY AND REFRESH RENDER LIST ONCE 'CONFIRM DELETE BTN' IS CLICKED
+
+document.addEventListener('click', function (event) {
+  if (event.target.matches('.confirm-delete-btn')) {
+    const $watchListUl = document.getElementById('watch-list-render-ul');
+    $watchListUl.textContent = '';
+
+    for (let i = 0; i < data.favorites.length; i++) {
+      if (data.deleteId === data.favorites[i].entryId) {
+        data.favorites.splice(i, 1);
+        for (let a = 0; a < data.favorites.length; a++) {
+          const ulElementWatchList = document.getElementById('watch-list-render-ul');
+          const WatchListRefresh = renderMovies(data.favorites[a]);
+          ulElementWatchList.appendChild(WatchListRefresh);
+        }
+      }
+      changePlusIcon();
+      $modalCardWatchList.className = 'hidden';
+      $confirmDeleteModal.className = 'hidden';
+    }
+    data.deleteId = null;
+    data.modal = [];
+  }
 });
