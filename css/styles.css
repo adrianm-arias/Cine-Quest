@@ -82,7 +82,7 @@ header {
 }
 
 .cover-image {
-  background-image: url("/images/empty-theatre.jpg");
+  background-image: url("/images/empty-theatre.webp");
   background-size: cover;
   background-position: center;
 }
@@ -125,6 +125,10 @@ header {
 
 .search-form {
   margin: 3rem 1rem;
+}
+
+input {
+  transition: border 0.5s;
 }
 
 input:focus {
@@ -550,6 +554,29 @@ input:focus {
 }
 
 @media (max-width: 768px) {
+  .movie-title {
+    font-size: 1.5rem;
+  }
+
+  .movie-info {
+    font-size: 0.9rem;
+  }
+
+  .movie-btn {
+    border-radius: 0.3rem;
+    font-size: 0.8rem;
+
+    /* margin-right: 0.5rem; */
+  }
+
+  .add-icon {
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 5rem;
+    padding: 0.3rem;
+    margin: 0.5rem;
+  }
+
   .column-half {
     width: 100%;
   }
@@ -580,6 +607,10 @@ input:focus {
     padding: 1rem 0;
     border-bottom: solid white 1px;
     width: 100%;
+  }
+
+  .movie-img-small {
+    height: 225px;
   }
 
   .nav-list:hover {
@@ -690,10 +721,6 @@ input:focus {
 
   .column-two-thirds {
     width: 100%;
-  }
-
-  .movie-img-small {
-    height: 225px;
   }
 
   .movie-title {
