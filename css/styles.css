@@ -42,7 +42,11 @@ ul {
   float: right;
   margin-top: auto;
   margin-bottom: auto;
-  transition: 0.2s border ease-in-out, 0.2s padding ease-in-out;
+  transition: 0.15s border ease-in-out, 0.15s padding ease-in-out;
+}
+
+.nav-list:hover {
+  border-bottom: solid #0f4b57 2px;
 }
 
 .nav-item {
@@ -52,10 +56,6 @@ ul {
   text-transform: capitalize;
   font-weight: 500;
   cursor: pointer;
-}
-
-.nav-list:hover {
-  border-bottom: solid #0f4b57 2px;
 }
 
 .nav-contain {
@@ -168,6 +168,11 @@ input:focus {
   font-weight: 400;
   cursor: pointer;
   text-align: right;
+  transition: 0.2s border ease-in-out, 0.2s padding ease-in-out;
+}
+
+.footer-link:hover {
+  border-bottom: solid white 1.5px;
 }
 
 .footer-bg {
