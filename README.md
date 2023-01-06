@@ -1,40 +1,47 @@
-# my-recipe-book
-A dynamic HTML, CSS, and JavaScript application for home cooks who want to search, create, and save recipes.
+# movie-finder
+A dynamic HTML, CSS, and JavaScript application for movie enthusiasts who want to search their favorite movies or find new ones. 
 
 ## Why I Built This
-As someone who enjoys cooking at home and doesn't have the cabinet space for storing tons of recipe books, I wanted to build an application that can be used to find and save good recipes digitally.
+As a movie lover, I love to find details about my favorite movies or be able to discover new movies coming out.
 
-Technologies Used
-HTML5
-CSS3
-JavaScript
-Heroku
-Edamam Recipe Search API - Link to Documentation
-Live Demo
-Try the application live at https://cody-martin8.github.io/my-recipe-book
+## Technologies Used
+HTML5  
+CSS3  
+JavaScript  
+Themoviedb.org API - [Link to Documentation](https://developers.themoviedb.org/3/getting-started/introduction)  
+Live Demo  
+Try the application live at https://adrianm-arias.github.io/ajax-project/
 
 ## Features
-Users can search for recipes
-Users can save searched recipes
-Users can create their own recipes
-Users can save created recipes
-Users can view saved and created recipes
-Users can add notes to saved recipes
-Users can edit created recipes
-Users can delete saved and created recipes
-Preview
-Creating a Recipe Searching for Recipes
+- Users can search any movie by name  
+- Users can view more info about a movie  
+- Users can can filter to view upcoming movies  
+- Users can can filter to view popular movies  
+- Users can add a movie to their watch list  
+- Users can view movies out in theatres  
+- Users can delete movies from their watch list  
+
+## Preview
+![movie-finder-preview](https://user-images.githubusercontent.com/104106959/211108318-ab1e9bb4-37ab-4579-9e43-1f129bc8c723.png)
+
 
 ## Stretch Features
-I would like this application to be able to display more than just the ingredients and images of saved recipes, such as the directions and nutrition information.
+I would to add the ability for the user to search their nearest theatre location if that movie is in theatres to go watch it.
 
-I would like to add a timer and measurement conversion chart to this application to make it more useful during cooking.
+Add user accounts so user can save their watch list and update regularly.
 
-## Development
-Getting Started
-Clone the repository.
+Add user reviews so each user can leave reviews of the movie they have watched.
 
-git clone https://github.com/cody-martin8/my-recipe-book
-Install all dependencies with NPM.
+### Development
 
-npm install
+1. Clone the repository.
+
+    ```shell
+    git clone https://github.com/Learning-Fuze/sgt-react
+    ```
+
+1. Install all dependencies with NPM.
+
+    ```shell
+    npm install
+    ```
