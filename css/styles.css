@@ -77,14 +77,14 @@ header {
 /* main styling */
 
 .overlay {
-  background: rgba(15, 75, 87, 0.75);
+  background: rgb(38, 167, 186);
+  background: linear-gradient(135deg, rgba(38, 167, 186, 1) 0%, rgba(15, 75, 87, 1) 100%);
   width: 100%;
+  padding-top: 1rem;
 }
 
 .cover-image {
-  background-image: url("/images/empty-theatre.jpg");
-  background-size: cover;
-  background-position: center;
+  width: 100%;
 }
 
 .white-text {
