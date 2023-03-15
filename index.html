@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -185,8 +185,9 @@
       </div>
       <div class="hidden" data-view="upcoming-movies-view">
         <div class="row pad-bottom">
-          <div class="column">
+          <div class="column flex-row">
             <h1 class="filter-movie-header">Upcoming Movies</h1>
+            <div id="loadingUpcoming" class=""></div>
           </div>
         </div>
         <ul id="upcoming-movie-render-ul">
@@ -194,8 +195,9 @@
       </div>
       <div class="hidden" data-view="popular-movies-view">
         <div class="row pad-bottom">
-          <div class="column">
+          <div class="column flex-row">
             <h1>Popular Movies</h1>
+            <div id="loadingPopular" class=""></div>
           </div>
         </div>
         <ul id="popular-movie-render-ul">
