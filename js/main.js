@@ -336,6 +336,14 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
     $watchListView.className = 'hidden';
   }
   if (data.view === 'watch-list-view') {
+    // checks if user has added any movies to watch list
+    if (data.favorites.length === 0) {
+      const ulElementWatchList = document.getElementById('watch-list-render-ul');
+      const noWatchList = document.createElement('p');
+      noWatchList.textContent = 'Get started! Add items to your list by searching below.';
+      noWatchList.className = 'movie-info';
+      ulElementWatchList.appendChild(noWatchList);
+    }
     for (let a = 0; a < data.favorites.length; a++) {
       const ulElementWatchList = document.getElementById('watch-list-render-ul');
       const WatchListRefresh = renderMovies(data.favorites[a]);
@@ -350,8 +358,13 @@ window.addEventListener('DOMContentLoaded', function loadMovies() {
   }
 });
 
+const loaderUpcoming = document.querySelector('#loadingUpcoming');
+
 // LISTENS FOR ALL 'UPCOMING' LINKS/BUTTONS TO CALL API
 document.addEventListener('click', function (event) {
+
+  loaderUpcoming.className = 'lds-dual-ring loader';
+
   if (event.target.matches('#upcoming-nav-link') ||
   event.target.matches('#upcoming-footer-link') ||
     event.target.matches('.upcoming-movie-btn')) {
@@ -405,6 +418,11 @@ document.addEventListener('click', function (event) {
         data.movies.push(movieEntry);
         const renderNewMovie = renderMovies(movieEntry);
         const ulElement = document.getElementById('upcoming-movie-render-ul');
+
+        setTimeout(() => {
+          loaderUpcoming.className = '';
+        }, 1000);
+
         ulElement.appendChild(renderNewMovie);
       }
       data.view = 'upcoming-movies-view';
@@ -438,8 +456,13 @@ window.addEventListener('resize', function () {
   }
 });
 
+const loaderPopular = document.querySelector('#loadingPopular');
+
 // LISTENS FOR ALL 'POPULAR' LINKS/BUTTONS TO CALL API
 document.addEventListener('click', function (event) {
+
+  loaderPopular.className = 'lds-dual-ring loader';
+
   if (event.target.matches('#popular-nav-link') ||
     event.target.matches('#popular-footer-link') ||
     event.target.matches('.popular-movie-btn')) {
@@ -492,6 +515,11 @@ document.addEventListener('click', function (event) {
         data.movies.push(movieEntry);
         const renderNewMovie = renderMovies(movieEntry);
         const ulElement = document.getElementById('popular-movie-render-ul');
+
+        setTimeout(() => {
+          loaderPopular.className = '';
+        }, 1000);
+
         ulElement.appendChild(renderNewMovie);
       }
       data.view = 'popular-movies-view';
@@ -590,6 +618,15 @@ document.addEventListener('click', function (event) {
       });
     }
 
+    // checks if user has added any movies to watch list
+    if (data.favorites.length === 0) {
+      const ulElementWatchList = document.getElementById('watch-list-render-ul');
+      const noWatchList = document.createElement('p');
+      noWatchList.textContent = 'Get started! Add items to your list by searching below.';
+      noWatchList.className = 'movie-info';
+      ulElementWatchList.appendChild(noWatchList);
+    }
+
     // hides other views not in use
 
     $viewSearchMovies.className = 'hidden';
@@ -684,6 +721,7 @@ function renderNowPlaying(movie) {
   const nowPlayingLink = document.createElement('a');
   nowPlayingLink.className = 'now-playing-link';
   nowPlayingLink.textContent = 'View Details >';
+
   divCol.appendChild(nowPlayingLink);
 
   return liItem;
