@@ -1,5 +1,5 @@
-# movie-finder
-A dynamic HTML, CSS, and JavaScript application for movie enthusiasts who want to search their favorite movies or find new ones. 
+# CineQuest
+Explore and manage your cinematic world. Search movies, access real-time theater data, and create a personalized watch list with ease. 
 
 ## Why I Built This
 As a movie lover, I love to find details about my favorite movies or be able to discover new movies coming out.
